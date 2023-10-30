@@ -109,17 +109,19 @@ create or alter procedure Pizzaria.VerifEmailESenhaFunc
 		@func varchar(30) output
 	as
 		begin
-			declare @verifFunc varchar(50) = @func
+			declare @verifFunc varchar(50) = @func,@passou int = 0
 			declare cFunc cursor for
 				Select func from Pizzaria.Funcionario where Email = @Email and senha = @senha
 			open cFunc
 			fetch cFunc into @verifFunc
-			if @@FETCH_STATUS = 0
+			if(@@FETCH_STATUS = 0 and @passou = 0)
 				begin
 					set @func = @verifFunc
+					set @passou = 1
 				end
+			close cFunc
+			deallocate cFunc
 		end
-
 
 create or alter procedure Pizzaria.VerifEmailESenhaCliente
 		@Email varchar(100),
@@ -127,15 +129,18 @@ create or alter procedure Pizzaria.VerifEmailESenhaCliente
 		@name varchar(30) output
 	as
 		begin
-			declare @verifClient varchar(50) = @name
+			declare @verifClient varchar(50) = @name, @passou int = 0
 			declare cClient cursor for
 				Select nome from Pizzaria.Cliente where Email = @Email and senha = @senha
 			open cClient
 			fetch cClient into @verifClient
-			if @@FETCH_STATUS = 0
+			if(@@FETCH_STATUS = 0 and @passou = 0)
 				begin
 					set @name = @verifClient
+					set @passou = 1
 				end
+			close cClient
+			deallocate cClient
 		end
 
 create or alter procedure Pizzaria.VerifEmailESenha
@@ -145,8 +150,8 @@ create or alter procedure Pizzaria.VerifEmailESenha
 	as
 		begin
 			declare @res varchar(30) = 'undefined'
-			exec Pizzaria.VerifEmailESenhaCliente @Email, @senha, @res
-			exec Pizzaria.VerifEmailESenhaFunc @Email, @senha, @res
+			exec Pizzaria.VerifEmailESenhaFunc @Email, @senha, @res output
+			exec Pizzaria.VerifEmailESenhaCliente @Email, @senha, @res output
 			set @Resultado = @res
 		end
 

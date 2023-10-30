@@ -8,13 +8,20 @@ exports.getRaiz = ("/",(req,res) => {
 exports.verifCadastro = ("/verifCadastro",async(req,res) => {
     let emailReq = req.query.email
     let senhaReq = req.query.senha
+    let output   = '' 
     try{
-        let resp = await prisma.$executeRaw`exec Pizzaria.VerifEmailESenha ${emailReq} ${senhaReq}`
+        console.log(emailReq)
+        console.log(senhaReq)
+        let resp = await prisma.$executeRaw`
+        declare @function varchar(30)
+        exec Pizzaria.VerifEmailESenha ${emailReq} ${senhaReq} @function output`
+        console.log(output)
+        res.send(resp + "/-/" + output)
     }catch(error){
-        let resp = "Indo-ali"
-    }finally{
-        res.json(resp)
+        let resp = "Nothing"
+        res.send(resp + "/-/" + output + '/-/' + error)
     }
+
 }) 
 
 exports.addCadastro = ("/addCadastro",async(req,res) => {
@@ -36,3 +43,4 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
 
     } 
 }) 
+
