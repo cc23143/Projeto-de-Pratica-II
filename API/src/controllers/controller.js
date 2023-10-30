@@ -32,6 +32,7 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
     let result = "Nothing"
     try{
         result = await prisma.$executeRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
+        console.log(`login de ${nome} ${sobrenome} feito com sucesso!`)
         res.send("login feito com sucesso!")
     }catch(error){
         res.send(error)
