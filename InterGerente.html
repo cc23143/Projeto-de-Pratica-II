@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerente UI</title>
+    <style>
+        .tabela{
+            border-top:solid black 5px;
+            border-bottom:solid black 5px;
+            border-left: solid grey 4px;
+            border-right: solid grey 4px;
+            border-collapse: collapse;
+            margin: 50%;
+            background-color: grey;
+            font-size: larger;
+        }
+        .btnsSide{
+            width: 100%;
+            border: solid rgb(240, 240, 240) 5px;
+            font-family:monospace;
+            font-size:large;
+        }
+        .btns{
+            border: solid rgb(240, 240, 240) 5px;
+            font-family:monospace;
+            font-size:large;
+        }
+        #topBar{
+            display : flex;
+            align-items: flex-start;
+            flex-direction: row-reverse;
+            border-bottom: solid red 5px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            background-color:rgb(240, 240, 240);
+        }
+        #sidebar{
+            width: 150px;
+            flex-direction: column;
+            align-items: flex-start;
+            border-right: solid red 5px;
+            border-top: solid red 5px;
+            border-bottom: solid red 5px;
+            border-left: none;
+        }
+        #bottomContent{
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="topBar">
+        <button onclick="" class="btns">Cadastrar Funcionário</button>
+        <button onclick="" class="btns">Manutenção de mesas</button>
+        <button onclick="" class="btns">Menu do cardápio</button>
+    </div>
+    <div id="bottomContent">
+        <div id="sidebar">
+            <button onclick="" class="btnsSide">Perfil</button>
+            <button onclick="" class="btnsSide">Manutenção de Funcionários</button>
+            <button onclick="" class="btnsSide">Manutenção de pedidos</button>
+        </div>
+        <div id="content">
+            <!--conteúdo da página Home-->                                           
+            <table class="tabela">
+                <tr>
+                    <th class="tabela">lorem</th>
+                    <th class="tabela">ipsum</th>
+                    <th class="tabela">dolor</th>
+                    <th class="tabela">sit</th>
+                    <th class="tabela">amet</th>
+                </tr>
+                <tr>
+                    <td class="tabela">1</td>
+                    <td class="tabela">2</td>
+                    <td class="tabela">3</td>
+                    <td class="tabela">4</td>
+                    <td class="tabela">5</td>
+                </tr>
+                <tr>
+                    <td class="tabela">Z</td>
+                    <td class="tabela">Y</td>
+                    <td class="tabela">X</td>
+                    <td class="tabela">W</td>
+                    <td class="tabela">V</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

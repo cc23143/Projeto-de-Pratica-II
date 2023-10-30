@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="cadastro.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body{
+            text-align: center;
+            align-content: center;
+            position: relative;
+            width: 100%;
+            background-image: url("Background-Cadastro.png");
+        }
+        .txt{
+            font-family: 'Merriweather', serif;
+        }
+        #Form{
+            background-color: white;
+            left: 50%;
+            margin-left: -200px; /* A metade de sua largura. */
+            position: absolute;
+            border: solid gray 6px;
+            border-radius: 6px;
+            width: 400px;
+            align-content: center;
+        }
+        #link:link {
+            text-decoration:none;
+            color: crimson;
+            }
+        #link:visited {
+            text-decoration:none;
+            color: crimson;
+            }
+        #link:hover {
+            text-decoration:none;
+            color: blue;
+            }
+    </style>
+    <title>Cadastro</title>
+</head>
+<body>
+    <div id="Form">
+        <h1 id="title">Cotuca's Pizzaria</h1>
+        <br>
+        <label class="txt">E-mail:</label>
+        <br>
+        <input type="text" id="Email">
+        <br><br>
+        <label class="txt">Senha:</label>
+        <br>
+        <input type="password" id="Senha">
+        <br><br>
+        <p>ㅤ</p>
+        <input type="button" value="Concluir" onclick="VerifCadastro()">ㅤㅤ<a id="link" href="NovoCadastro.html">Ainda não tem uma conta? </a>
+        <p>ㅤ</p>
+    </div>
+</body>
+</html>
