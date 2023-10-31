@@ -24,7 +24,7 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
     }catch(error){
         output = "nothing"
     }finally{
-        res.send(output)
+        res.json(output)
     }
 }) 
 
@@ -40,14 +40,37 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
     let endereco    = req.query.endereco
     let dataNasc    = dataNascAno + "-" + dataNascDia + "-" + dataNascMes
     try{
-        let Verif = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente c, Pizzaria.Funcionario f where c.email = ${email} and f.email = ${email}`
+        let Verif = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente, Pizzaria.Funcionario where Pizzaria.Cliente.email = ${email} and Pizzaria.Funcionario.email = ${email}`
         if(Verif = 0){
             await prisma.$executeRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
             console.log(`login de ${nome} ${sobrenome} feito com sucesso!`)
             res.send(`login de ${nome} ${sobrenome} feito com sucesso!`)
         }
     }catch(err){
+        res.send(`houve um erro ao executar login. Por favor, tente novamente.`)
+    } 
+}) 
 
+exports.altSenha = ("/altSenha",async(req,res) => {
+    let email        = req.query.email
+    let senhaAntiga  = req.query.senhaAntiga
+    let senhaNova    = req.query.senhaNova
+    try{
+        let VerifClient = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where Pizzaria.Cliente.email = ${email} and Pizzaria.Funcionario.email = ${email}`
+        let VerifFunc   = await prisma.$queryRaw`select count(*) from Pizzaria.Funcionario where Pizzaria.Cliente.email = ${email} and Pizzaria.Funcionario.email = ${email}`
+        if((VerifClient+VerifFunc) != 0){
+            if(VerifFunc != 0){
+                await prisma.$executeRaw`update Pizzaria.Cliente set senha = ${senhaNova} where email = ${email} and senha = ${senha}`
+                res.send(`senha alterada com sucesso!`)
+            }else if(VerifClient != 0){
+                await prisma.$executeRaw`update Pizzaria.Funcionario set senha = ${senhaNova} where email = ${email} and senha = ${senha}`
+                res.send(`senha alterada com sucesso!`)
+            }else{
+                res.send(`senha não alterada. Tente novamente!`)
+            }
+        }
+    }catch(err){
+        res.send(`houve um erro ao alterar a senha. Por favor, tente novamente.`)
     } 
 }) 
 
