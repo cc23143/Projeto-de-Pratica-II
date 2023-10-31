@@ -7,5 +7,6 @@ const controller = require('../controllers/controller')
 router.get('/',controller.getRaiz);
 router.post('/addCadastro',controller.addCadastro)
 router.get('/verifCadastro',controller.verifCadastro)
+router.put('/altSenha',controller.altSenha)
 
 module.exports = router
