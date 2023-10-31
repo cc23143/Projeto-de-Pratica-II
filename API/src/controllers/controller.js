@@ -9,19 +9,23 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
     let emailReq = req.query.email
     let senhaReq = req.query.senha
     let output   = '' 
+    let client
+    let func
     try{
-        console.log(emailReq)
-        console.log(senhaReq)
-        let resp = await prisma.$executeRaw`
-        declare @function varchar(30)
-        exec Pizzaria.VerifEmailESenha ${emailReq} ${senhaReq} @function output`
-        console.log(output)
-        res.send(resp + "/-/" + output)
+        client = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`
+        func   = await prisma.$queryRaw`select count(*) from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`
+        if(client = 1){
+            output = (await prisma.$queryRaw`select nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
+        }else if(func = 1){
+            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
+        }else{
+            output = ("nothing")
+        }
     }catch(error){
-        let resp = "Nothing"
-        res.send(resp + "/-/" + output + '/-/' + error)
+        output = "nothing"
+    }finally{
+        res.send(output)
     }
-
 }) 
 
 exports.addCadastro = ("/addCadastro",async(req,res) => {
@@ -36,11 +40,38 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
     let endereco    = req.query.endereco
     let dataNasc    = dataNascAno + "-" + dataNascDia + "-" + dataNascMes
     try{
-        await prisma.$executeRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
-        console.log(`login de ${nome} ${sobrenome} feito com sucesso!`)
-        res.send(`login de ${nome} ${sobrenome} feito com sucesso!`)
+        let Verif = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente c, Pizzaria.Funcionario f where c.email = ${email} and f.email = ${email}`
+        if(Verif = 0){
+            await prisma.$executeRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
+            console.log(`login de ${nome} ${sobrenome} feito com sucesso!`)
+            res.send(`login de ${nome} ${sobrenome} feito com sucesso!`)
+        }
     }catch(err){
 
     } 
 }) 
+
+//exports.
+
+/*
+Isso vai ser feito via javadbc [o prisma n tanka view]
+exports.getMenu = ("/getMenu",async(req,res) => {
+    let menuTipo = req.query.tipo  //tipo só pode ser Bebida ou Pizza(dropdown menu)
+    let menu
+    console.log(menuTipo)
+    try{
+        if(menuTipo = "Bebida"){
+            menu = await prisma.$queryRaw`select * from Pizzaria.V_CardapioBebidas`
+        }else if(menuTipo = "Pizza"){
+            menu = await prisma.$queryRaw`select * from Pizzaria.V_CardapioPizza`
+        }else{
+            menu = "Não se trata de um cardápio válido!" 
+        }
+        menu = await prisma.$queryRaw`select * from Pizzaria.V_CardapioBebidas`
+    }catch(err){
+        menu = err + ""
+    }finally{
+        res.json(menu)
+    }
+})*/
 
