@@ -12,11 +12,21 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
     let client
     let func
     try{
-        client = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`
-        func   = await prisma.$queryRaw`select count(*) from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`
-        if(client = 1){
+        client        = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`
+        func          = await prisma.$queryRaw`select count(*) from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`
+        client        = JSON.stringify(client)
+        func          = JSON.stringify(func)
+        client        = client.slice(0, 3) + "count" + client.slice(3)
+        func          = func.slice(0, 3) + "count" + func.slice(3)
+        console.log(client)
+        console.log(func)
+        let ObjClient = JSON.parse(client) 
+        let ObjFunc   = JSON.parse(func)
+        console.log(ObjClient)
+        console.log(ObjFunc.count)
+        if(ObjClient.count = 1){
             output = (await prisma.$queryRaw`select nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
-        }else if(func = 1){
+        }else if(ObjFunc.count = 1){
             output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
         }else{
             output = ("nothing")
@@ -58,11 +68,13 @@ exports.altSenha = ("/altSenha",async(req,res) => {
     try{
         let VerifClient = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${email} and senha = ${senhaAntiga}`
         let VerifFunc   = await prisma.$queryRaw`select count(*) from Pizzaria.Funcionario where email = ${email} and senha = ${senhaAntiga}`
+        console.log(VerifClient)
+        console.log(VerifFunc)
         if((VerifClient+VerifFunc) != 0){
-            if(VerifFunc != 0){
+            if(VerifFunc > 0){
                 await prisma.$executeRaw`update Pizzaria.Cliente set senha = ${senhaNova} where email = ${email} and senha = ${senhaAntiga}`
                 res.send(`senha alterada com sucesso!`)
-            }else if(VerifClient != 0){
+            }else if(VerifClient > 0){
                 await prisma.$executeRaw`update Pizzaria.Funcionario set senha = ${senhaNova} where email = ${email} and senha = ${senhaAntiga}`
                 res.send(`senha alterada com sucesso!`)
             }else{
@@ -70,7 +82,7 @@ exports.altSenha = ("/altSenha",async(req,res) => {
             }
         }
     }catch(err){
-        res.send(`houve um erro ao alterar a senha. Por favor, tente novamente.Error:` + err)
+        res.send(`houve um erro ao alterar a senha. Por favor, tente novamente.`)
     } 
 }) 
 
@@ -81,7 +93,7 @@ exports.altSenha = ("/altSenha",async(req,res) => {
 //exports.
 
 /*
-Isso vai ser feito via javadbc [o prisma n tanka view]
+Isso vai ser feito via javadbc [o prisma n dá suporte para view]
 exports.getMenu = ("/getMenu",async(req,res) => {
     let menuTipo = req.query.tipo  //tipo só pode ser Bebida ou Pizza(dropdown menu)
     let menu
