@@ -18,22 +18,22 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
         func          = JSON.stringify(func)
         client        = client.slice(0, 3) + "count" + client.slice(3)
         func          = func.slice(0, 3) + "count" + func.slice(3)
-        console.log(client)
-        console.log(func)
+        console.log(client + "/-/" + func + "/-/" + emailReq + "/-/" + senhaReq)
         let ObjClient = JSON.parse(client) 
         let ObjFunc   = JSON.parse(func)
-        console.log(ObjClient)
-        console.log(ObjFunc.count)
-        if(ObjClient.count = 1){
+        if(ObjClient[0].count = 1){
             output = (await prisma.$queryRaw`select nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
-        }else if(ObjFunc.count = 1){
-            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
+            console.log(ObjClient[0].count)
+        }else if(ObjFunc[0].count = 1){
+            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where Email = ${emailReq} and senha = ${senhaReq}`)
+            console.log(ObjFunc[0].count)
         }else{
             output = ("nothing")
         }
     }catch(error){
         output = "nothing"
     }finally{
+        console.log(output)
         res.json(output)
     }
 }) 

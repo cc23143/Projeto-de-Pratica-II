@@ -1,23 +1,19 @@
-let Email = document.querySelector('#Email')
+let Email = document.getElementById('#Email')
 let Senha = document.querySelector('#Senha')
-let sit   = false
 let func  = '-1'
+
 const VerifCadAPI = function(){
     const XML = new XMLHttpRequest()
     XML.onreadystatechange = function(){
         if(XML.readyState == 4 && XML.status == 200){
             func = XML.responseText
-            sit = true
         }else if(XML.status == 404){
             func = "Error 404:page not found."
         }
     }
-    if(sit){
-        XML.open("get","http://localhost:7698/verifCadastro",true)
-        XML.send()
-    }
-    console.log(func)
-    console.log(sit)
+    XML.open("get","https://localhost:7698/verifCadastro",true)
+    XML.send("?email=" + Email + "&senha=" + Senha)
+    console.log(func + "\n" + XML.readyState + "\n" + XML.status)
 }
 function VerifCadastro(){
     VerifCadAPI()
