@@ -48,8 +48,8 @@ create table Pizzaria.Bebida
 	 precoBebida money,
 	 NumCard int unique null,
 	)
-drop table Pizzaria.pedido
-drop table Pizzaria.CarrinhoDeCompras
+
+
 create table Pizzaria.CarrinhoDeCompras	
     (idCarrinho int not null, 
 	 NumProduto int not null,
@@ -62,7 +62,7 @@ create table Pizzaria.CarrinhoDeCompras
 	 foreign key(idPizza) references Pizzaria.Pizza(idPizza),
 	 foreign key(idBebida) references Pizzaria.Bebida(idBebida),
 	 foreign key(idCliente) references Pizzaria.Cliente(idCliente),
-	 primary key(idCarrinho, NumProduto)
+	 primary key(idCarrinho)
 	)
 
 create table Pizzaria.pedido
