@@ -1,4 +1,5 @@
 create schema Pizzaria
+go
 --Os ingredientes serão salvos na API.
 create table Pizzaria.Funcionario                   --O gerente sempre é o 1° registro, pois ele cadastra os Funcionários
 	(idFunc int primary key identity(1,1),
@@ -47,53 +48,48 @@ create table Pizzaria.Bebida
 	 precoBebida money,
 	 NumCard int unique null,
 	)
-
-create table Pizzaria.pedido
-	(idPedido int primary key identity(1,1),
-	 idPizza int,
-	 idBebida int null,
-	 idFunc int,
-	 idCliente int,
-	 NumeroDePizzas int,
-	 NumeroDeBebidas int null,
-	 tamanhoDaPizza varchar(10),
-	 precoPedido money,
-	 dataDeEntrega date,
-	 diaDoPedido date,
-	 foreign key(idPizza) references Pizzaria.Pizza(idPizza),
-	 foreign key(idBebida) references Pizzaria.Bebida(idBebida),
-	 foreign key(idFunc) references Pizzaria.Funcionario(idFunc),
-	 foreign key(idCliente) references Pizzaria.Cliente(idCliente)
-	)
-
+drop table Pizzaria.pedido
+drop table Pizzaria.CarrinhoDeCompras
 create table Pizzaria.CarrinhoDeCompras	
-	(NumProduto int primary key identity(1,1),
+    (idCarrinho int not null, 
+	 NumProduto int not null,
 	 idPizza int null,
 	 idBebida int null,
 	 idCliente int,
 	 NumeroDePizzas int null,
 	 NumeroDeBebidas int null,
 	 tamanhoDaPizza varchar(10) null,
-	 dataPedido date,
 	 foreign key(idPizza) references Pizzaria.Pizza(idPizza),
 	 foreign key(idBebida) references Pizzaria.Bebida(idBebida),
 	 foreign key(idCliente) references Pizzaria.Cliente(idCliente),
+	 primary key(idCarrinho, NumProduto)
 	)
 
+create table Pizzaria.pedido
+	(idPedido int primary key identity(1,1),
+	 idFunc int,
+	 idCarrinhoDeCompras int not null,
+	 precoPedido money,
+	 dataDeEntrega date,
+	 diaDoPedido date,
+	 foreign key(idCarrinhoDeCompras) references Pizzaria.CarrinhoDeCompras(idCarrinho),
+	 foreign key(idFunc) references Pizzaria.Funcionario(idFunc)
+	)
+go
 create view Pizzaria.V_CardapioPizzas
 	AS
 	SELECT TOP 100 percent
 		P.nomePizza, P.idPizza, P.precoPizza, P.NumCard
 	FROM
 		Pizzaria.Pizza P order by P.NumCard
-
+go
 create view Pizzaria.V_CardapioBebidas
 	AS
 	SELECT TOP 100 percent
 		B.nomeBebida, B.idBebida, B.precoBebida, B.NumCard
 	FROM
 		Pizzaria.Bebida B order by B.NumCard
-
+go
 create nonclustered index ixEmailFunc
 on Pizzaria.Funcionario(Email) 
 create nonclustered index ixEmailClient
@@ -102,7 +98,48 @@ create nonclustered index ixSenhaFunc
 on Pizzaria.Funcionario(senha) 
 create nonclustered index ixSenhaClient
 on Pizzaria.Cliente(senha)
+go
 
+create or alter trigger Pizzaria.VerifPrecoPizza
+on Pizzaria.Pizza
+for insert,update as
+begin
+	if((select precoPizza from Pizzaria.Pizza where idPizza = @@IDENTITY) < 0)
+	begin
+		RAISERROR('O preco da Pizza é invalido(menor que 0).', 15, 1);
+	end
+end
+go
+create or alter trigger Pizzaria.VerifPrecoBebida
+on Pizzaria.Bebida
+for insert,update as
+begin
+	if((select precoBebida from Pizzaria.Bebida where idBebida = @@IDENTITY) < 0)
+	begin
+		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
+	end
+end
+go
+create or alter trigger Pizzaria.VerifPrecoPedido
+on Pizzaria.Bebida
+for insert,update as
+begin
+	if((select precoBebida from Pizzaria.Bebida where idBebida = @@IDENTITY) < 0)
+	begin
+		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
+	end
+end
+go
+create or alter trigger Pizzaria.VerifPrecoPizza
+on Pizzaria.Pizza
+for insert,update as
+begin
+	if((select precoPizza from Pizzaria.Pizza where idPizza = @@IDENTITY) < 0)
+	begin
+		RAISERROR('O preco da Pizza é invalido(menor que 0).', 15, 1);
+	end
+end
+go
 create or alter procedure Pizzaria.VerifEmailESenhaFunc
 		@Email varchar(100),
 		@senha varchar(50),
@@ -122,7 +159,7 @@ create or alter procedure Pizzaria.VerifEmailESenhaFunc
 			close cFunc
 			deallocate cFunc
 		end
-
+go
 create or alter procedure Pizzaria.VerifEmailESenhaCliente
 		@Email varchar(100),
 		@senha varchar(50),
@@ -142,7 +179,7 @@ create or alter procedure Pizzaria.VerifEmailESenhaCliente
 			close cClient
 			deallocate cClient
 		end
-
+go
 create or alter procedure Pizzaria.VerifEmailESenha
 		@Email varchar(100),
 		@senha varchar(50),
@@ -154,7 +191,7 @@ create or alter procedure Pizzaria.VerifEmailESenha
 			exec Pizzaria.VerifEmailESenhaCliente @Email, @senha, @res output
 			set @Resultado = @res
 		end
-
+go
 create or alter procedure Pizzaria.adicionarProdCarrinho
 	@idProduto int,
 	@quantProd int,
@@ -202,7 +239,7 @@ create or alter procedure Pizzaria.adicionarProdCarrinho
 				rollback Tran
 			end
 		end
-
+go
 create or alter procedure Pizzaria.FinalizarCompra
 	@idCliente int,
 	@idFunc int
@@ -273,3 +310,4 @@ create or alter procedure Pizzaria.FinalizarCompra
 		close cCompra
 		deallocate cCompra
 	end
+go
