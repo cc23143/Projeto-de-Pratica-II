@@ -121,10 +121,10 @@ begin
 end
 go
 create or alter trigger Pizzaria.VerifPrecoPedido
-on Pizzaria.Bebida
+on Pizzaria.pedido
 for insert,update as
 begin
-	if((select precoBebida from Pizzaria.Bebida where idBebida = @@IDENTITY) < 0)
+	if((select precoPedido from Pizzaria.pedido where idPedido = @@IDENTITY) < 0)
 	begin
 		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
 	end
