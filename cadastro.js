@@ -6,12 +6,15 @@ let func  = '-1'
 function VerifCadastro(){
     const axios = require('axios');
 
-    // Faz uma requisição a um usuarío com um ID expecifico
-    axios.get(`http://localhost:7698/verifCadastro?email=${Email.value}&senha=${Senha.value}`)
+    axios.get(`http://localhost:7698/verifCadastro`, {params:{
+      email: Email.value,
+      senha: Senha.value
+    }}) //?email=${Email.value}&senha=${Senha.value}
       .then(function (res) {
+        console.log(res)
         switch(res){
             case "gerente":
-                window.location.replace('InterGerente.html')
+                //window.location.replace('InterGerente.html')
             case "cozinhero":
 
             case "entregador":
@@ -19,9 +22,9 @@ function VerifCadastro(){
             case "garçom":  
 
             case "undefined" || "-1" || "nothing":
-                console.log("Não")
+                //console.log("Não")
             default:
-                window.location.replace('InterCliente.html')
+               //window.location.replace('InterCliente.html')
     }
         console.log(response);
       })
