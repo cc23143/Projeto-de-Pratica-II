@@ -22,15 +22,14 @@ function VerifCadastro(){
             case "garçom":  
 
             case "undefined" || "-1" || "nothing" || null:
-                //console.log("Não")
+                
             default:
                //window.location.replace('InterCliente.html')
     }
-        console.log(response);
+        console.log(res);
       })
       .catch(function (error) {
         console.log("Não")
         console.error(error);
       })
-    
 }
