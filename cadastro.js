@@ -1,4 +1,4 @@
-let Email = document.getElementById('#Email')
+let Email = document.querySelector('#Email')
 let Senha = document.querySelector('#Senha')
 let func  = '-1'
 
@@ -21,7 +21,7 @@ function VerifCadastro(){
 
             case "garçom":  
 
-            case "undefined" || "-1" || "nothing":
+            case "undefined" || "-1" || "nothing" || null:
                 //console.log("Não")
             default:
                //window.location.replace('InterCliente.html')
