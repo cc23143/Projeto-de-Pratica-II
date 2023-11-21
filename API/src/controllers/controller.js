@@ -18,15 +18,12 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
         func          = JSON.stringify(func)
         client        = client.slice(0, 3) + "count" + client.slice(3)
         func          = func.slice(0, 3) + "count" + func.slice(3)
-        console.log(client + "/-/" + func + "/-/" + emailReq + "/-/" + senhaReq)
         let ObjClient = JSON.parse(client) 
         let ObjFunc   = JSON.parse(func)
-        if(ObjClient[0].count = 1){
+        if(ObjClient[0].count == 1){
             output = (await prisma.$queryRaw`select nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
-            console.log(ObjClient[0].count)
-        }else if(ObjFunc[0].count = 1){
-            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where Email = ${emailReq} and senha = ${senhaReq}`)
-            console.log(ObjFunc[0].count)
+        }else if(ObjFunc[0].count == 1){
+            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
         }else{
             output = ("nothing")
         }
@@ -68,13 +65,19 @@ exports.altSenha = ("/altSenha",async(req,res) => {
     try{
         let VerifClient = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${email} and senha = ${senhaAntiga}`
         let VerifFunc   = await prisma.$queryRaw`select count(*) from Pizzaria.Funcionario where email = ${email} and senha = ${senhaAntiga}`
-        console.log(VerifClient)
-        console.log(VerifFunc)
-        if((VerifClient+VerifFunc) != 0){
-            if(VerifFunc > 0){
+        client        = JSON.stringify(VerifClient)
+        func          = JSON.stringify(VerifFunc)
+        client        = client.slice(0, 3) + "count" + client.slice(3)
+        func          = func.slice(0, 3) + "count" + func.slice(3)
+        console.log(client)
+        console.log(func)
+        let ObjClient = JSON.parse(client) 
+        let ObjFunc   = JSON.parse(func)
+        if((ObjClient[0].count+ObjFunc[0].count) != 0){
+            if(ObjClient[0].count > 0){
                 await prisma.$executeRaw`update Pizzaria.Cliente set senha = ${senhaNova} where email = ${email} and senha = ${senhaAntiga}`
                 res.send(`senha alterada com sucesso!`)
-            }else if(VerifClient > 0){
+            }else if(ObjFunc[0].count > 0){
                 await prisma.$executeRaw`update Pizzaria.Funcionario set senha = ${senhaNova} where email = ${email} and senha = ${senhaAntiga}`
                 res.send(`senha alterada com sucesso!`)
             }else{
