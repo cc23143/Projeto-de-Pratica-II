@@ -2,7 +2,6 @@
 
 
 function VerifCadastro(){
-    console.log(document.querySelector('#Email') + "/-/" + document.querySelector('#Senha'))
     let Email = document.getElementById('Email').value
     let Senha = document.querySelector('#Senha').value
     axios.get(`http://localhost:7698/verifCadastro`, {params:{
