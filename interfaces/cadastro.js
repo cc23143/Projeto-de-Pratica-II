@@ -10,21 +10,29 @@ function VerifCadastro(){
     }}) //?email=${Email.value}&senha=${Senha.value}
       .then(function (res) {
         console.log(res)
-        switch(res){
+        console.log(res.data[0].func)
+        console.log(res.data[0].nome)
+        if(res.data[0].func != null && res.data[0].func != undefined){
+          switch(res.data[0].func){
             case "gerente":
-                //window.location.replace('InterGerente.html')
+                window.location.replace('InterGerente.html')
             case "cozinhero":
 
             case "entregador":
 
             case "garçom":  
 
-            case "undefined" || "-1" || "nothing":
-                //console.log("Não")
             default:
-               //window.location.replace('InterCliente.html')
-    }
-        console.log(response);
+              if(res.data[0].nome != null && res.data[0].nome != undefined){
+                switch(res.data[0].nome){
+                  case "undefined" || "-1" || "nothing" || "":
+                      window.alert("Houve um erro ao cadastrar! verifique o email e a senha")
+                  default:
+                      window.location.replace('interCliente.html')
+                }
+              }
+          }
+        } 
       })
       .catch(function (error) {
         console.log("Não")
