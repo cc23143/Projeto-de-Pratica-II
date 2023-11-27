@@ -8,16 +8,17 @@ function AddCadastro(){
     let DataDia   = document.querySelector('#dataDia').value
     let DataMes   = document.querySelector('#dataMes').value
     let DataAno   = document.querySelector('#dataAno').value
+    let data = new Date();
     axios.post(`http://localhost:7698/addCadastro`, {params:{
-      email:      Email,
-      senha:      Senha,
-      nome:       Nome,
-      sobrenome:  Sobrenome,
-      endereco:   Endereco,
-      sexo:       Sexo,
-      dataNascDia:DataDia,
-      dataNascMes:DataMes,
-      dataNascAno:DataAno
+      email:       Email,
+      senha:       Senha,
+      nome:        Nome,
+      sobrenome:   Sobrenome,
+      endereco:    Endereco,
+      sexo:        Sexo,
+      dataNascDia: DataDia,
+      dataNascMes: DataMes,
+      dataNascAno: DataAno
     }})
       .then(function (res) {
           console.log(res.data[0].email)
