@@ -53,7 +53,7 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
         Verif       = Verif.slice(0, 3) + "count" + Verif.slice(3)
         let ObjVerif= JSON.parse(Verif) 
         if(ObjVerif[0].count == 0){
-            await prisma.$executeRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
+            await prisma.$queryRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
             res.send(`login de ${nome} ${sobrenome} feito com sucesso!`)
         }else{
             res.send(`Este email já está cadastrado.`)
