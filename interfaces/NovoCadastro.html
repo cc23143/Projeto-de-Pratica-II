@@ -7,85 +7,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novo Cadastro</title>
-    <style>
-        body{
-            text-align: center;
-            align-content: center;
-            position: relative;
-            width: 100%;
-            background-image: url("Background-Cadastro.png");
-        }
-        .txt{
-            font-family: 'Merriweather', serif;
-        }
-        #Form{
-            background-color: white;
-            left: 50%;
-            margin-left: -200px; /* A metade de sua largura. */
-            position: absolute;
-            border: solid gray 6px;
-            border-radius: 6px;
-            width: 400px;
-            align-content: center;
-        }
-        #link:link {
-            text-decoration:none;
-            color: crimson;
-            }
-        #link:visited {
-            text-decoration:none;
-            color: crimson;
-            }
-        #link:hover {
-            text-decoration:none;
-            color: blue;
-            }
-    </style>
+    <link rel="stylesheet" href="NovoCadastro.css">
+    <link rel="icon" href="img/logoctc.png">
 </head>
 <body>
-    <div id="Form">
-        <label>Nome:</label>
-        <br>
-        <input type="text" id="Name">
-        <br><br>
-        <label>Sobrenome:</label>
-        <br>
-        <input type="text" id="Sobrenome">
-        <br><br>
-        <label>Endereço:</label>
-        <br>
-        <input type="text" id="Endereco">
-        <br><br>
-        <label>Data de nascimento:</label>
-        <br>
-        <label>Dia:</label><br>
-        <input type="number" id="dataDia">
-        <br><br>
-        <label>Mes:</label><br>
-        <input type="number" id="dataMes">
-        <br><br>
-        <label>Ano:</label><br>
-        <input type="number" id="dataAno">
-        <br><br>
-        <label>Sexo:</label>
-        <br>
-        <select name="sexo" id="sexo">
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-            <option value="N">Prefiro não dizer</option>
-          </select>
-        <br><br>
-        <label>E-mail:</label>
-        <br>
-        <input type="text" id="Email">
-        <br><br>
-        <label>Senha:</label>
-        <br>
-        <input type="password" id="senha">
-        <br><br>
-        <p>ㅤ</p>
-        <input type="button" value="Cadastrar" onclick="AddCadastro()">ㅤㅤㅤㅤ<a id="link" href="cadastro.html">Retornar</a>
-        <p>ㅤ</p>
-    </div>
+    <header>
+        <div class="logo">
+            <a href="#">
+                <img src="img/logoctc.png" alt=""/>
+            </a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="Login">
+            <h2>Novo Login</h2>
+            <div class="input">
+                <input type="text" id="Name" placeholder="Insira seu nome">
+                <input type="text" id="Sobrenome" placeholder="Insira seu sobrenome">
+                <input type="text" id="Endereco" placeholder="Insira seu endereço">
+                <input type="date" id="data" min="1923-01-01" max="2005-12-31" placeholder="Insira seu dia de nascimento">
+                <select name="sexo" id="sexo">
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                    <option value="N">Prefiro não dizer</option>
+                </select>
+                <input type="text" id="Email" placeholder="insira seu email">
+                <input type="password" id="senha" placeholder="insira sua senha">
+                <p>ㅤ</p>
+                <input type="button" value="Cadastrar" class="botao" onclick="AddCadastro()">ㅤㅤㅤㅤ<a id="link" class="conta" href="cadastro.html">Retornar</a>
+                <p>ㅤ</p>
+            </div>
+        </div>   
+    </div>    
 </body>
 </html>
