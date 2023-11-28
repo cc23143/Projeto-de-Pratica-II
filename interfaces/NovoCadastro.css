@@ -20,10 +20,6 @@ body::before{
     position: absolute;
     height: 100%;
     width: 100%;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
 }
 
 .logo img{
@@ -42,10 +38,8 @@ header{
 .container{
     position: relative;
     padding: 60px;
-    height: 55px;
-    max-width: 450px;
-    margin-left: 33%;
-
+    max-width: 400px;
+    margin-left: 40%;
 }
 
 .container h2{
@@ -57,13 +51,26 @@ header{
 .container .input{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
     margin-bottom: 20px;
+    height: 420px;
 }
 
 .container .input input{
-    height: 50px;
+    height: 200px;
     width: 260px;
+    color: white;
+    background-color: rgb(51, 51, 51);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-left: 11px;
+    outline: none;
+}
+
+select{
+    height: 200px;
+    width: 272px;
     color: white;
     background-color: rgb(51, 51, 51);
     border: none;
@@ -78,7 +85,7 @@ header{
 }
 
 .container .input .botao{
-    height: 50px;
+    height: 200px;
     width: 270px;
     background-color: white;
     color: black;
