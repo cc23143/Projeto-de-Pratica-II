@@ -32,6 +32,8 @@ create table Pizzaria.Pizza
 	 precoPizza money,
 	 NumCard int unique null,
 	)
+alter table Pizzaria.Pizza
+add img varchar(80)
 
 create table Pizzaria.ingrediente
 	(

@@ -89,7 +89,20 @@ exports.altSenha = ("/altSenha",async(req,res) => {
     } 
 }) 
 
+exports.getCardapioPizza = ("/getCardapioP",async(req,res) => {
+    let CardPizza  = await prisma.$queryRaw`select * from Pizzaria.Pizza order by NumCard`
+    res.json(CardPizza)
+})
 
+exports.getCardapioBebida = ("/getCardapioB",async(req,res) => {
+    let CardBebida  = await prisma.$queryRaw`select * from Pizzaria.Bebida order by NumCard`
+    res.json(CardBebida)
+})
+
+exports.addPizzaToCardapio = ("/addCardapio",async(req,res) => {
+    let CardPizza  = await prisma.$queryRaw`select * from Pizzaria.Pizza order by NumCard`
+    res.json(CardPizza)
+})
 
 //exports.
 

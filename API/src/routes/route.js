@@ -8,5 +8,7 @@ router.get('/',controller.getRaiz);
 router.post('/addCadastro',controller.addCadastro)
 router.get('/verifCadastro',controller.verifCadastro)
 router.put('/altSenha',controller.altSenha)
+router.get('/getCardapioP',controller.getCardapioPizza)
+router.get('/getCardapioB',controller.getCardapioBebida)
 
 module.exports = router
