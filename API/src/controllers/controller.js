@@ -58,10 +58,10 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
         }else{
             res.send(`Este email já está cadastrado.`)
         }
-    }catch(err){
+    }catch(err){ 
         res.send(`houve um erro ao executar login. Por favor, tente novamente.` + err)
     } 
-}) 
+})
 
 exports.altSenha = ("/altSenha",async(req,res) => {
     let email        = req.query.email

@@ -6,6 +6,13 @@ function AddCadastro(){
     let Endereco  = document.querySelector('#Endereco').value
     let Sexo      = document.querySelector('#sexo').value
     let DataNasc  = document.querySelector('#data').value
+    console.log(Email    )
+    console.log(Senha    )
+    console.log(Nome     )
+    console.log(Sobrenome)
+    console.log(Endereco )
+    console.log(Sexo     )
+    console.log(DataNasc )
     let data = new Date();
     axios.post(`http://localhost:7698/addCadastro`, {params:{
       email:       Email,
@@ -18,10 +25,10 @@ function AddCadastro(){
       dataNascMes: DataNasc.slice(5,7),
       dataNascAno: DataNasc.slice(8,10)
     }, headers:{
-      "Content-type":"application/json; charset=UTF-8"
+      "Content-type":"multipart/form-data; charset=UTF-8"
     }})
       .then(function (res) {
-          console.log(res.data)
+          console.log(res)
       })
       .catch(function (error) {
           console.error(error);
