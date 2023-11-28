@@ -18,7 +18,7 @@ function AddCadastro(){
       dataNascMes: DataNasc.slice(5,7),
       dataNascAno: DataNasc.slice(8,10)
     }, headers:{
-      "Content-type":"application/x-www-form-urlencoded; charset=UTF-8"
+      "Content-type":"application/json; charset=UTF-8"
     }})
       .then(function (res) {
           console.log(res.data)
