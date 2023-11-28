@@ -102,29 +102,9 @@ create nonclustered index ixSenhaClient
 on Pizzaria.Cliente(senha)
 go
 
-create or alter trigger Pizzaria.VerifPrecoPizza
-on Pizzaria.Pizza
-for insert,update as
-begin
-	if((select precoPizza from Pizzaria.Pizza where idPizza = @@IDENTITY) < 0)
-	begin
-		RAISERROR('O preco da Pizza é invalido(menor que 0).', 15, 1);
-	end
-end
-go
-create or alter trigger Pizzaria.VerifPrecoBebida
-on Pizzaria.Bebida
-for insert,update as
-begin
-	if((select precoBebida from Pizzaria.Bebida where idBebida = @@IDENTITY) < 0)
-	begin
-		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
-	end
-end
-go
 create or alter trigger Pizzaria.VerifPrecoPedido
 on Pizzaria.pedido
-for insert,update as
+for insert as
 begin
 	if((select precoPedido from Pizzaria.pedido where idPedido = @@IDENTITY) < 0)
 	begin
@@ -134,11 +114,21 @@ end
 go
 create or alter trigger Pizzaria.VerifPrecoPizza
 on Pizzaria.Pizza
-for insert,update as
+for insert as
 begin
 	if((select precoPizza from Pizzaria.Pizza where idPizza = @@IDENTITY) < 0)
 	begin
 		RAISERROR('O preco da Pizza é invalido(menor que 0).', 15, 1);
+	end
+end
+go
+create or alter trigger Pizzaria.VerifPrecoBebida
+on Pizzaria.Bebida
+for insert as
+begin
+	if((select precoBebida from Pizzaria.Bebida where idBebida = @@IDENTITY) < 0)
+	begin
+		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
 	end
 end
 go

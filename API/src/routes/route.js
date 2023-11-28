@@ -10,5 +10,6 @@ router.get('/verifCadastro',controller.verifCadastro)
 router.put('/altSenha',controller.altSenha)
 router.get('/getCardapioP',controller.getCardapioPizza)
 router.get('/getCardapioB',controller.getCardapioBebida)
+router.post('/addCardapioP',controller.addPizzaToCardapio)
 
 module.exports = router

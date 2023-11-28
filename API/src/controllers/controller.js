@@ -99,9 +99,12 @@ exports.getCardapioBebida = ("/getCardapioB",async(req,res) => {
     res.json(CardBebida)
 })
 
-exports.addPizzaToCardapio = ("/addCardapio",async(req,res) => {
-    let CardPizza  = await prisma.$queryRaw`select * from Pizzaria.Pizza order by NumCard`
-    res.json(CardPizza)
+exports.addPizzaToCardapio = ("/addCardapioP",async(req,res) => {
+    let nome    = req.query.nome
+    let preco   = req.query.preco
+    let NumCard = req.query.NumCard
+    let img     = req.query.img
+    let Pizza   = await prisma.$queryRaw`insert into Pizzaria.Pizza values(${nome},${preco},${NumCard},${img})`
 })
 
 //exports.
