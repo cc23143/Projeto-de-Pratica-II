@@ -13,20 +13,9 @@ function AddCadastro(){
     console.log(Endereco )
     console.log(Sexo     )
     console.log(DataNasc )
+    console.log(DataNasc.slice(0,4))
     let data = new Date();
-    axios.post(`http://localhost:7698/addCadastro`, {params:{
-      email:       Email,
-      senha:       Senha,
-      nome:        Nome,
-      sobrenome:   Sobrenome,
-      endereco:    Endereco,
-      sexo:        Sexo,
-      dataNascDia: DataNasc.slice(0,4),
-      dataNascMes: DataNasc.slice(5,7),
-      dataNascAno: DataNasc.slice(8,10)
-    }, headers:{
-      "Content-type":"multipart/form-data; charset=UTF-8"
-    }})
+    axios.post(`http://localhost:7698/addCadastro?email=${Email}&senha=${Senha}&nome=${Nome}&sobrenome=${Sobrenome}&sexo=${Sexo}&dataNascDia=${DataNasc.slice(8,10)}&dataNascMes=${DataNasc.slice(5,7)}&dataNascAno=${DataNasc.slice(0,4)}&endereco=${Endereco}`)
       .then(function (res) {
           console.log(res)
       })

@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(function(req,res,next){
     res.header("Access-Control-Allow-Origin",'*');
     res.header("Access-Control-Allow-Credentials",true);
-    res.header("Access-Control-Allow-Methods",'GET,POST,PUT,DELETE');
-    //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
-    res.header("Access-Control-Allow-Headers",'Content-Type');
+    res.header("Access-Control-Allow-Methods",'POST,GET,DELETE');
+ // //https://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
+    res.header("Access-Control-Allow-Headers",'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
     next();
 });
 

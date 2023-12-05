@@ -45,20 +45,25 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
     let dataNascMes = req.query.dataNascMes
     let dataNascAno = req.query.dataNascAno
     let endereco    = req.query.endereco
-
+    console.log(`${nome} - ${email} - ${dataNascDia} - ${dataNascMes} - ${dataNascAno}`)
     let dataNasc    = dataNascAno + "-" + dataNascDia + "-" + dataNascMes
+    let Verif   = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${email}`
+    console.log(Verif)
+    Verif       = JSON.stringify(Verif)
+    Verif       = Verif.slice(0, 3) + "count" + Verif.slice(3)
+    let ObjVerif= JSON.parse(Verif) 
+    console.log(Verif)
     try{
-        let Verif   = await prisma.$queryRaw`select count(*) from Pizzaria.Cliente where email = ${email}`
-        Verif       = JSON.stringify(Verif)
-        Verif       = Verif.slice(0, 3) + "count" + Verif.slice(3)
-        let ObjVerif= JSON.parse(Verif) 
+        console.log('checkpoint')
         if(ObjVerif[0].count == 0){
+            console.log(dataNasc)
             await prisma.$queryRaw`insert into Pizzaria.Cliente values(${nome},${sobrenome},${email},${senha},${endereco},convert(datetime,${dataNasc}),${sexo})`
-            res.send(`login de ${nome} ${sobrenome} feito com sucesso!`)
+            res.send(`login de ${nome} ${sobrenome} feito com sucesso!` )
         }else{
             res.send(`Este email já está cadastrado.`)
         }
     }catch(err){ 
+        console.log(err)
         res.send(`houve um erro ao executar login. Por favor, tente novamente.` + err)
     } 
 })
