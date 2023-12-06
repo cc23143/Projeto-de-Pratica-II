@@ -204,15 +204,4 @@ header h1{
     scale: 1.05;
 }
 
-@media screen and (max-width: 850px) {
-    .container {
-      display: block;
-    }
-    .container-items{
-        width: 100% !important;
-    }
-    .carrinho{
-        width: 100%;
-    }
-  }
 

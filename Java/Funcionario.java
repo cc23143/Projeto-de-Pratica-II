@@ -35,4 +35,69 @@ public class Funcionario {
         this.genero=genero;
         */
     }
+
+    public int getIdFunc() {
+        return this.idFunc;
+    }
+
+    public void setIdFunc(int idFunc) {
+        this.idFunc = idFunc;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return this.sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public String getFunc() {
+        return this.func;
+    }
+
+    public void setFunc(String func) {
+        this.func = func;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return this.senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Date getDataNasc() {
+        return this.dataNasc;
+    }
+
+    public void setDataNasc(Date dataNasc) {
+        this.dataNasc = dataNasc;
+    }
+
+    public char getGenero() {
+        return this.genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
 }
