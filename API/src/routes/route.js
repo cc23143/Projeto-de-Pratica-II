@@ -11,5 +11,6 @@ router.put('/altSenha',controller.altSenha)
 router.get('/getCardapioP',controller.getCardapioPizza)
 router.get('/getCardapioB',controller.getCardapioBebida)
 router.post('/addCardapioP',controller.addPizzaToCardapio)
+router.get('/getIng',controller.getIng)
 
 module.exports = router

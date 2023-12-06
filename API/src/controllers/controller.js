@@ -104,6 +104,11 @@ exports.getCardapioPizza = ("/getCardapioP",async(req,res) => {
     res.json(CardPizza)
 })
 
+exports.getIng = ("/getIng",async(req,res) => {
+    let Ing       = await prisma.$queryRaw`select * from Pizzaria.ingrediente order by idPizza`
+    res.json(Ing)
+})
+
 exports.getCardapioBebida = ("/getCardapioB",async(req,res) => {
     let CardBebida  = await prisma.$queryRaw`select * from Pizzaria.Bebida order by NumCard`
     res.json(CardBebida)
