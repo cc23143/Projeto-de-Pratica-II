@@ -198,17 +198,10 @@ function atualizarTotalcarrinho() {
         var item = carrinhoItems[i];
         var preçoElemento = item.getElementsByClassName('carrinho-item-preço')[0];
         var preçoText = preçoElemento.innerText;
-
-        // Remover qualquer caractere que não seja número, ponto ou vírgula
         var preçoLimpo = preçoText.replace(/[^\d.,]/g, '');
-
-        // Substituir vírgula por ponto para garantir um formato numérico válido
         preçoLimpo = preçoLimpo.replace(',', '.');
-
-        // Converter para float
         var preço = parseFloat(preçoLimpo);
 
-        // Verificar se a conversão foi bem-sucedida e adicionar ao total
         if (!isNaN(preço)) {
             var quantidadeItem = item.getElementsByClassName('carrinho-item-quantidade')[0];
             var quantidade = parseInt(quantidadeItem.value, 10);
