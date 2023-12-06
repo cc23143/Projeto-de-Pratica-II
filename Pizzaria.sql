@@ -110,6 +110,16 @@ begin
 	begin
 		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
 	end
+	delete from Pizzaria.pedido where idPedido = @@IDENTITY
+	declare @LastId int
+	declare cCount cursor for
+	select count(*) from Pizzaria.pedido
+	open cCount
+	fetch cCount into @LastId
+	while @@FETCH_STATUS = 0
+	begin
+		dbcc checkident('Pizzaria.pedido',reseed,@LastId)
+	end
 end
 go
 create or alter trigger Pizzaria.VerifPrecoPizza
@@ -120,6 +130,16 @@ begin
 	begin
 		RAISERROR('O preco da Pizza é invalido(menor que 0).', 15, 1);
 	end
+	delete from Pizzaria.Pizza where idPizza = @@IDENTITY
+	declare @LastId int
+	declare cCount cursor for
+	select count(*) from Pizzaria.Pizza
+	open cCount
+	fetch cCount into @LastId
+	while @@FETCH_STATUS = 0
+	begin
+		dbcc checkident('Pizzaria.Pizza',reseed,@LastId)
+	end
 end
 go
 create or alter trigger Pizzaria.VerifPrecoBebida
@@ -129,6 +149,16 @@ begin
 	if((select precoBebida from Pizzaria.Bebida where idBebida = @@IDENTITY) < 0)
 	begin
 		RAISERROR('O preco da Bebida é invalido(menor que 0).', 15, 1);
+	end
+	delete from Pizzaria.Bebida where idBebida = @@IDENTITY
+	declare @LastId int
+	declare cCount cursor for
+	select count(*) from Pizzaria.Bebida
+	open cCount
+	fetch cCount into @LastId
+	while @@FETCH_STATUS = 0
+	begin
+		dbcc checkident('Pizzaria.Bebida',reseed,@LastId)
 	end
 end
 go
