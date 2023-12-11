@@ -1,17 +1,47 @@
-function addCardapio(){
+
     let arrayP = []
     let arrayB = []
     let arrayI = []
+    console.log(2)
     axios.get(`http://localhost:7698/getCardapioP`)
       .then(function (res) {
-        for(i = 0; i < res.data.length;i++){
-          arrayP[i] = JSON.parse(JSON.stringify(res.data[i]))
+        for(i=0;i<res.data.length;i++){
+            var newItem = document.createElement('div');
+            newItem.className = 'item';
+            console.log(2)
+
+            var titleSpan = document.createElement('span');
+            titleSpan.className = 'titulo-item';
+            titleSpan.textContent = '' + res.data[i].nomePizza
+
+            newItem.appendChild(titleSpan);
+            var imgElement = document.createElement('img');
+            imgElement.className = 'img-item';
+            imgElement.src = 'img/' + res.data[i].img;
+            imgElement.alt = '';
+            newItem.appendChild(imgElement);
+
+            var priceSpan = document.createElement('span');
+            priceSpan.className = 'preço-item';
+            priceSpan.textContent = "R$" + res.data[i].precoPizza
+            newItem.appendChild(priceSpan);
+
+
+            var addButton = document.createElement('button');
+            addButton.className = 'botao-item';
+            addButton.textContent = 'Adicionar ao carrinho';
+            newItem.appendChild(addButton);
+
+
+            document.querySelector('.container-items').appendChild(newItem);
+            console.log('New item:', newItem);
+            console.log('Container:', document.querySelector('.container-items'));
         }
       })
       .catch(function (error) {
         console.error(error)
       })
-    axios.get(`http://localhost:7698/getCardapioB`)
+    /*axios.get(`http://localhost:7698/getCardapioB`)
       .then(function (res) {
         for(i = 0; i < res.data.length;i++){
           arrayB[i] = JSON.parse(JSON.stringify(res.data[i]))
@@ -28,12 +58,8 @@ function addCardapio(){
       })
       .catch(function (error) {
         console.error(error)
-      })
-    let div    = document.createElement("div")
-    let img    = document.createElement("img")
-    let nome   = document.createElement("p")
-    let button = document.querySelector("#button")
-}
+      })*/
+      
 
 var mostraCarrinho = false;
 
@@ -63,11 +89,22 @@ function ready(){
         button.addEventListener('click',subtrairQuantidadeDeProdutos);
     }
 
-    var adicionarAoCarrinho = document.getElementsByClassName('botao-item');
-    for(var i=0; i<adicionarAoCarrinho.length;i++){
-        var button = adicionarAoCarrinho[i];
-        button.addEventListener('click', btnAdicionarAoCarrinho);
+    var buttonsContainer = document.querySelector('.container-items');
+
+    buttonsContainer.addEventListener('click', function (event) {
+    var target = event.target;
+
+    // Check if the clicked element has the class 'botao-item'
+    if (target.classList.contains('botao-item')) {
+        var item = target.parentElement;
+        var titulo = item.querySelector('.titulo-item').innerText;
+        var preço = item.querySelector('.preço-item').innerText;
+        var imagenSrc = item.querySelector('.img-item').src;
+
+        adicionarAoCarrinho(titulo, preço, imagenSrc);
+        mostrarCarrrinho();
     }
+});
 
     document.getElementsByClassName('btn-pagar')[0].addEventListener('click',pagarClicked)
 }
@@ -106,7 +143,7 @@ function mostrarCarrrinho(){
 
 function adicionarAoCarrinho(titulo, preço, imagenSrc){
     var item = document.createElement('div');
-    item.classList.add = ('item');
+    item.classList.add('item');
     var itemscarrinho = document.getElementsByClassName('carrinho-items')[0];
 
     var nomesItensNoCarrinho = itemscarrinho.getElementsByClassName('carrinho-item-titulo');

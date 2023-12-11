@@ -5,6 +5,9 @@ exports.getRaiz = ("/",(req,res) => {
     res.send("<h1>Cotuca's Pizzaria</h1>");
 })
 
+exports.add
+
+
 exports.verifCadastro = ("/verifCadastro",async(req,res) => {
     let emailReq = req.query.email
     let senhaReq = req.query.senha
@@ -21,9 +24,9 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
         let ObjClient = JSON.parse(client) 
         let ObjFunc   = JSON.parse(func)
         if(ObjClient[0].count == 1){
-            output = (await prisma.$queryRaw`select nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
+            output = (await prisma.$queryRaw`select idCliente,nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
         }else if(ObjFunc[0].count == 1){
-            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
+            output = (await prisma.$queryRaw`select idFunc,func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
         }else{
             output = ("nothing")
         }
