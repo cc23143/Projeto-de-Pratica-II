@@ -40,7 +40,7 @@
       .catch(function (error) {
         console.error(error)
       })
-    /*axios.get(`http://localhost:7698/getCardapioB`)
+    axios.get(`http://localhost:7698/getCardapioB`)
       .then(function (res) {
         for(i = 0; i < res.data.length;i++){
           arrayB[i] = JSON.parse(JSON.stringify(res.data[i]))
@@ -57,10 +57,12 @@
       })
       .catch(function (error) {
         console.error(error)
-      })*/
+      })
       
 function addToCarrinho(){
-    
+    axios.post(`http://localhost:7698/addC`, {params:{
+        idCliente:
+    }})
 }
 
 var mostraCarrinho = false;

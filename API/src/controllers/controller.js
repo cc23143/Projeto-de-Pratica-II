@@ -132,7 +132,7 @@ exports.addToCarrinho = ("/addC",async(req,res) => {
     let NumPizzas  = req.query.NumPizzas  //array, aparece na posiição correspondente a pizza
     let NumBebidas = req.query.NumBebidas //mesmo caso
     let TamPizzas  = req.query.TamanhoP   //define o tamanhoda pizza conforme a posição
-    //!!!O idCarrinho é igual ao idCliente!!!
+    //!!!O idCarrinho é sempre igual ao idCliente!!!\\
     let arrayRes   = []
     try{
         for(i = 0; i < NumProduto.length;i++){

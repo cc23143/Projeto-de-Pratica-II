@@ -15,6 +15,8 @@ function VerifCadastro(){
         if(res.data[0].func != null && res.data[0].func != undefined){
           switch(res.data[0].func){
             case "gerente":
+                //https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage
+                sessionStorage.setItem("id", "" + res.data[0].idFunc);
                 window.location.replace('InterGerente.html')
             case "cozinhero":
 
@@ -32,6 +34,7 @@ function VerifCadastro(){
                   window.alert("Houve um erro ao cadastrar! verifique o email e a senha")
               default:
                   window.location.replace('interCliente.html')
+                  sessionStorage.setItem("id", "" + res.data[0].idCliente);
             }
         }
       }})
