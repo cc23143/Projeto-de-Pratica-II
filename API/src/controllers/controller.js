@@ -124,6 +124,38 @@ exports.addPizzaToCardapio = ("/addCardapioP",async(req,res) => {
     }
 })
 
+exports.addToCarrinho = ("/addC",async(req,res) => {
+    let idCliente  = req.query.idCliente
+    let NumProduto = req.query.NumProduto //array, tem que definir o tamanho dos outros e seguir na sequência: [1;2;3;4;5;6;[...];N]
+    let idPizza    = req.query.idPizzas   //array, se não houver pizzas nesse produto, a posição contém 0
+    let idBebida   = req.query.idBebidas  //mesmo caso das pizzas
+    let NumPizzas  = req.query.NumPizzas  //array, aparece na posiição correspondente a pizza
+    let NumBebidas = req.query.NumBebidas //mesmo caso
+    let TamPizzas  = req.query.TamanhoP   //define o tamanhoda pizza conforme a posição
+    let arrayRes   = []
+    try{
+        for(i = 0; i < NumProduto.length;i++){
+            if(idPizza[i] == 0){
+                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${NumProduto[i]},null,${idBebida[i]},${idCliente},null,${NumBebidas[i]},null)`
+            }else if(idBebida[i] == 0){
+                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${NumProduto[i]},${idPizza[i]},null,${idCliente},${NumPizzas[i]},null,${TamPizzas[i]})`
+            }
+            arrayRes[i] = insertedCart
+        }
+    }catch(err){
+        console.log(err)
+    }
+    
+})
+
+exports.Pedido = ("/ped",async(req,res) => {
+    let idFunc  = req.query.idF
+    let idCarr  = req.query.idCarr
+    let data    = new Date()
+    
+    prisma.$queryRaw`insert into Pizzaria.pedido values (${idFunc},${idCarr})`
+})
+
 //exports.
 
 //exports.

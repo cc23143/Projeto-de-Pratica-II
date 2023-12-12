@@ -59,7 +59,9 @@
         console.error(error)
       })*/
       
-
+function addCarrinho(){
+    
+}
 var mostraCarrinho = false;
 
 if(document.readyState == 'loading'){
