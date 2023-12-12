@@ -5,9 +5,6 @@ exports.getRaiz = ("/",(req,res) => {
     res.send("<h1>Cotuca's Pizzaria</h1>");
 })
 
-exports.add
-
-
 exports.verifCadastro = ("/verifCadastro",async(req,res) => {
     let emailReq = req.query.email
     let senhaReq = req.query.senha
@@ -67,7 +64,7 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
         }
     }catch(err){ 
         console.log(err)
-        res.send(`houve um erro ao executar login. Por favor, tente novamente.` + err)
+        res.send(`houve um erro ao executar login. Por favor, tente novamente.`)
     } 
 })
 
@@ -122,7 +119,9 @@ exports.addPizzaToCardapio = ("/addCardapioP",async(req,res) => {
     let preco   = req.query.preco
     let NumCard = req.query.NumCard
     let img     = req.query.img
-    let Pizza   = await prisma.$queryRaw`insert into Pizzaria.Pizza values(${nome},${preco},${NumCard},${img})`
+    if(preco > 0){
+        let Pizza   = await prisma.$queryRaw`insert into Pizzaria.Pizza values(${nome},${preco},${NumCard},${img})`
+    }
 })
 
 //exports.
