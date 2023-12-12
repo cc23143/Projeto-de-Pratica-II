@@ -59,9 +59,10 @@
         console.error(error)
       })*/
       
-function addCarrinho(){
+function addToCarrinho(){
     
 }
+
 var mostraCarrinho = false;
 
 if(document.readyState == 'loading'){

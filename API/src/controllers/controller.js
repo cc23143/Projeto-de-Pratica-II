@@ -132,29 +132,55 @@ exports.addToCarrinho = ("/addC",async(req,res) => {
     let NumPizzas  = req.query.NumPizzas  //array, aparece na posiição correspondente a pizza
     let NumBebidas = req.query.NumBebidas //mesmo caso
     let TamPizzas  = req.query.TamanhoP   //define o tamanhoda pizza conforme a posição
+    //!!!O idCarrinho é igual ao idCliente!!!
     let arrayRes   = []
     try{
         for(i = 0; i < NumProduto.length;i++){
             if(idPizza[i] == 0){
-                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${NumProduto[i]},null,${idBebida[i]},${idCliente},null,${NumBebidas[i]},null)`
+                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${idCliente},${NumProduto[i]},null,${idBebida[i]},${idCliente},null,${NumBebidas[i]},null)`
             }else if(idBebida[i] == 0){
-                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${NumProduto[i]},${idPizza[i]},null,${idCliente},${NumPizzas[i]},null,${TamPizzas[i]})`
+                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${idCliente},${NumProduto[i]},${idPizza[i]},null,${idCliente},${NumPizzas[i]},null,${TamPizzas[i]})`
             }
             arrayRes[i] = insertedCart
         }
+        res.send(arrayRes)
     }catch(err){
         console.log(err)
     }
     
 })
 
-exports.Pedido = ("/ped",async(req,res) => {
-    let idFunc  = req.query.idF
-    let idCarr  = req.query.idCarr
-    let data    = new Date()
-    let Carr    = await prisma.$queryRaw`select [NumProduto],`
-    await prisma.$queryRaw`insert into Pizzaria.pedido values (${idFunc},${idCarr})`
+exports.getLastNumProd = ("/getLNProd", async(req,res) => {
+    let idC  = req.query.idCar
+    let Num  = await prisma.$queryRaw`select count(NumProduto) + 1 from Pizzaria.CarrinhoDeCompras where idCarrinho=${idC}`
+    Num         = JSON.stringify(Num)
+    Num         = Num.slice(0, 3) + "count" + Num.slice(3)
+    let ObjNum  = JSON.parse(Num)
+    res.json(ObjNum)
 })
+
+
+exports.Pedido   = ("/ped",async(req,res) => {
+    let idFunc   = req.query.idF
+    let idCarr   = req.query.idCarr
+    let data     = new Date()
+    let StrDate  = data.getDate() + "-" + data.getMonth() + "-" + data.getFullYear()
+    let Carr     = await prisma.$queryRaw`select count(*) from Pizzaria.CarrinhoDeCompras where idCarrinho = ${idCarr}`
+    Carr         = JSON.stringify(Carr)
+    Carr         = Carr.slice(0, 3) + "count" + Carr.slice(3)
+    let ObjCarr  = JSON.parse(Carr)
+    let Preco    = await prisma.$queryRaw`select sum(P.precoPizza) as SP, sum(B.precoBebida) as SB, C.NumeroDePizzas, C.NumeroDeBebidas from Pizzaria.CarrinhoDeCompras C, PIzzaria.Pizza P, Pizzaria.Bebida B where idCarrinho = ${idCarr} and (P.idPizza = C.idPizza or B.idBebida = C.idBebida) group by C.NumeroDePizzas,C.NumeroDeBebidas`
+    Preco        = JSON.stringify(Preco)
+    let ObjPreco = JSON.parse(Preco)
+    try{
+        await prisma.$queryRaw`insert into Pizzaria.pedido values (${idFunc}, ${idCarr}, ${ObjCarr[0].count}, ${(ObjPreco[0].SP * ObjPreco[0].NumeroDePizzas) + (ObjPreco[0].SB * ObjPreco[0].NumeroDeBebidas)}, null, cast(${StrDate} as date))`
+        res.send("pedido feito com sucesso!")
+    }catch(e){
+        console.log(e)
+        res.send("ocorreu um erro na inserção do pedido.")
+    }
+})
+
 
 //exports.
 
