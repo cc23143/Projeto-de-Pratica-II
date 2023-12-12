@@ -60,8 +60,10 @@
       })
       
 function addToCarrinho(){
+    var id = sessionStorage.getItem("id");
     axios.post(`http://localhost:7698/addC`, {params:{
-        idCliente:
+        idCliente:id,
+        
     }})
 }
 
