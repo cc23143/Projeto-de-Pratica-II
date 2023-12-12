@@ -1,17 +1,14 @@
-
-    let arrayP = []
-    let arrayI = []
+    let arrayB = []
     console.log(2)
-    axios.get(`http://localhost:7698/getCardapioP`)
+    axios.get(`http://localhost:7698/getCardapioB`)
       .then(function (res) {
         for(i=0;i<res.data.length;i++){
             var newItem = document.createElement('div');
             newItem.className = 'item';
-            console.log(2)
 
             var titleSpan = document.createElement('span');
             titleSpan.className = 'titulo-item';
-            titleSpan.textContent = '' + res.data[i].nomePizza
+            titleSpan.textContent = '' + res.data[i].nomeBebida
 
             newItem.appendChild(titleSpan);
             var imgElement = document.createElement('img');
@@ -22,7 +19,7 @@
 
             var priceSpan = document.createElement('span');
             priceSpan.className = 'preço-item';
-            priceSpan.textContent = "R$" + res.data[i].precoPizza
+            priceSpan.textContent = "R$" + res.data[i].precoBebida
             newItem.appendChild(priceSpan);
 
 
@@ -40,24 +37,6 @@
       .catch(function (error) {
         console.error(error)
       })
-    /*axios.get(`http://localhost:7698/getCardapioB`)
-      .then(function (res) {
-        for(i = 0; i < res.data.length;i++){
-          arrayB[i] = JSON.parse(JSON.stringify(res.data[i]))
-        }
-      })
-      .catch(function (error) {
-        console.error(error)
-      })
-    axios.get(`http://localhost:7698/getIng`)
-      .then(function (res) {
-        for(i = 0; i < res.data.length;i++){
-          arrayI[i] = JSON.parse(JSON.stringify(res.data[i]))
-        }
-      })
-      .catch(function (error) {
-        console.error(error)
-      })*/
       
 
 var mostraCarrinho = false;
