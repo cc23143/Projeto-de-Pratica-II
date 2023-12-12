@@ -152,8 +152,8 @@ exports.Pedido = ("/ped",async(req,res) => {
     let idFunc  = req.query.idF
     let idCarr  = req.query.idCarr
     let data    = new Date()
-    
-    prisma.$queryRaw`insert into Pizzaria.pedido values (${idFunc},${idCarr})`
+    let Carr    = await prisma.$queryRaw`select [NumProduto],`
+    await prisma.$queryRaw`insert into Pizzaria.pedido values (${idFunc},${idCarr})`
 })
 
 //exports.
