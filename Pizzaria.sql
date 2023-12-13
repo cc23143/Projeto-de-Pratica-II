@@ -64,19 +64,21 @@ create table Pizzaria.CarrinhoDeCompras
 	 foreign key(idPizza) references Pizzaria.Pizza(idPizza),
 	 foreign key(idBebida) references Pizzaria.Bebida(idBebida),
 	 foreign key(idCliente) references Pizzaria.Cliente(idCliente),
-	 primary key(idCarrinho)
+	 primary key(idCarrinho, NumProduto)
 	)
 
-create table Pizzaria.pedido
-	(idPedido int primary key identity(1,1),
-	 idFunc int,
-	 idCarrinhoDeCompras int not null,
-	 precoPedido money,
-	 dataDeEntrega date,
-	 diaDoPedido date,
-	 foreign key(idCarrinhoDeCompras) references Pizzaria.CarrinhoDeCompras(idCarrinho),
-	 foreign key(idFunc) references Pizzaria.Funcionario(idFunc)
-	)
+CREATE TABLE Pizzaria.pedido
+(
+    idPedido int PRIMARY KEY IDENTITY(1,1),
+    idFunc int,
+    idCarrinhoDeCompras int not null,
+    NumProduto int not null,  -- Assuming NumProduto is part of the primary key
+    precoPedido money,
+    dataDeEntrega date,
+    diaDoPedido date,
+    FOREIGN KEY (idCarrinhoDeCompras, NumProduto) REFERENCES Pizzaria.CarrinhoDeCompras (idCarrinho, NumProduto),
+    FOREIGN KEY (idFunc) REFERENCES Pizzaria.Funcionario(idFunc)
+);
 go
 create view Pizzaria.V_CardapioPizzas
 	AS

@@ -1,4 +1,4 @@
-
+//https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage
 
 
 function VerifCadastro(){
@@ -15,6 +15,7 @@ function VerifCadastro(){
         if(res.data[0].func != null && res.data[0].func != undefined){
           switch(res.data[0].func){
             case "gerente":
+                sessionStorage.setItem("id", "" + res.data[0].idFunc);
                 window.location.replace('InterGerente.html')
             case "cozinhero":
 
@@ -28,9 +29,10 @@ function VerifCadastro(){
         }else{
           if(res.data[0].nome != null && res.data[0].nome != undefined){
             switch(res.data[0].nome){
-              case "undefined" || "-1" || "nothing" || "":
+              case "undefined" || "-1" || "nothing" || "" || "null":
                   window.alert("Houve um erro ao cadastrar! verifique o email e a senha")
               default:
+                  sessionStorage.setItem("id", "" + res.data[0].idCliente);
                   window.location.replace('interCliente.html')
             }
         }

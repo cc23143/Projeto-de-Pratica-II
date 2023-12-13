@@ -21,9 +21,9 @@ exports.verifCadastro = ("/verifCadastro",async(req,res) => {
         let ObjClient = JSON.parse(client) 
         let ObjFunc   = JSON.parse(func)
         if(ObjClient[0].count == 1){
-            output = (await prisma.$queryRaw`select nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
+            output = (await prisma.$queryRaw`select idCliente,nome from Pizzaria.Cliente where email = ${emailReq} and senha = ${senhaReq}`)
         }else if(ObjFunc[0].count == 1){
-            output = (await prisma.$queryRaw`select func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
+            output = (await prisma.$queryRaw`select idFunc,func from Pizzaria.Funcionario where email = ${emailReq} and senha = ${senhaReq}`)
         }else{
             output = ("nothing")
         }
@@ -64,7 +64,7 @@ exports.addCadastro = ("/addCadastro",async(req,res) => {
         }
     }catch(err){ 
         console.log(err)
-        res.send(`houve um erro ao executar login. Por favor, tente novamente.` + err)
+        res.send(`houve um erro ao executar login. Por favor, tente novamente.`)
     } 
 })
 
@@ -119,7 +119,50 @@ exports.addPizzaToCardapio = ("/addCardapioP",async(req,res) => {
     let preco   = req.query.preco
     let NumCard = req.query.NumCard
     let img     = req.query.img
-    let Pizza   = await prisma.$queryRaw`insert into Pizzaria.Pizza values(${nome},${preco},${NumCard},${img})`
+    if(preco > 0){
+        let Pizza   = await prisma.$queryRaw`insert into Pizzaria.Pizza values(${nome},${preco},${NumCard},${img})`
+    }
+})
+
+exports.addToCarrinho = ("/addC",async(req,res) => {
+    let idCliente  = req.query.idCliente
+    let NumProduto = req.query.NumProduto //array, tem que definir o tamanho dos outros e seguir na sequência: [1;2;3;4;5;6;[...];N]
+    let idPizza    = req.query.idPizzas   //array, se não houver pizzas nesse produto, a posição contém 0
+    let idBebida   = req.query.idBebidas  //mesmo caso das pizzas
+    let NumPizzas  = req.query.NumPizzas  //array, aparece na posiição correspondente a pizza
+    let NumBebidas = req.query.NumBebidas //mesmo caso
+    let TamPizzas  = req.query.TamanhoP   //define o tamanhoda pizza conforme a posição
+    let arrayRes   = []
+    try{
+        for(i = 0; i < NumProduto.length;i++){
+            if(idPizza[i] == 0){
+                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${NumProduto[i]},null,${idBebida[i]},${idCliente},null,${NumBebidas[i]},null)`
+            }else if(idBebida[i] == 0){
+                let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${NumProduto[i]},${idPizza[i]},null,${idCliente},${NumPizzas[i]},null,${TamPizzas[i]})`
+            }
+            arrayRes[i] = insertedCart
+        }
+        res.json(arrayRes)
+    }catch(err){
+        console.log(err)
+    }
+    
+})
+
+exports.Pedido = ("/ped",async(req,res) => {
+    let idFunc     = req.query.idF
+    let idCarr     = req.query.idCarr
+    let data       = new Date()
+    let StringData = data.getDate() + "-" + data.getMonth() + "-" + data.getFullYear()
+    let Carr       = await prisma.$queryRaw`select count(*) from Pizzaria.CarrinhoDeCompras where idCarrinho = ${idCarr}`
+    Carr           = JSON.stringify(Carr)
+    Carr           = Carr.slice(0, 3) + "count" + Carr.slice(3)
+    let ObjCarr    = JSON.parse(Carr) 
+    let Car2       = await prisma.$queryRaw`select sum(P.precoPizza) as SP, sum(B.precoBebida) SB, C.NumeroDePizzas, C.NumeroDeBebidas from Pizzaria.Pizza P,Pizzaria.Bebida B, Pizzaria.CarrinhoDeCompras C where idCarrinho = ${idCarr} and(P.idPizza = C.idPizza or C.idBebida = B.idBebida) group by C.NumeroDePizzas,C.NumeroDeBebidas`
+    Car2           = JSON.stringify(Car2)
+    let ObjCar2    = JSON.parse(Car2)
+    let result     = await prisma.$queryRaw`insert into Pizzaria.pedido values (${idFunc},${idCarr},${ObjCarr[0].count},${ObjCar2[0].SP * ObjCar2[0].NumeroDePizzas + ObjCar2[0].SB * ObjCar2[0].NumeroDeBebidas},null,${StringData})`
+    res.json(result)
 })
 
 //exports.

@@ -1,20 +1,16 @@
 public class produto {
-    String titulo;
+    String nome;
     double preco;
     private String imagemSrc;
 
-    public produto(String titulo, double preco, String imagemSrc) {
-        this.titulo = titulo;
+    public produto(String nome, double preco, String imagemSrc) {
+        this.nome = nome;
         this.preco = preco;
         this.imagemSrc = imagemSrc;
     }
 
-    public String getTitulo() {
-        return this.titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public String getnome() {
+        return this.nome;
     }
 
     public double getPreco() {

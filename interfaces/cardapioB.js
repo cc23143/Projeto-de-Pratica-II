@@ -1,18 +1,14 @@
-    
-    var id     = sessionStorage.getItem("id");
-    let arrayP = []
-    let arrayI = []
-    console.log(id)
-    axios.get(`http://localhost:7698/getCardapioP`)
+    let arrayB = []
+    console.log(2)
+    axios.get(`http://localhost:7698/getCardapioB`)
       .then(function (res) {
         for(i=0;i<res.data.length;i++){
             var newItem = document.createElement('div');
             newItem.className = 'item';
-            console.log(2)
-            
+
             var titleSpan = document.createElement('span');
             titleSpan.className = 'titulo-item';
-            titleSpan.textContent = '' + res.data[i].nomePizza
+            titleSpan.textContent = '' + res.data[i].nomeBebida
 
             newItem.appendChild(titleSpan);
             var imgElement = document.createElement('img');
@@ -23,7 +19,7 @@
 
             var priceSpan = document.createElement('span');
             priceSpan.className = 'preço-item';
-            priceSpan.textContent = "R$" + res.data[i].precoPizza
+            priceSpan.textContent = "R$" + res.data[i].precoBebida
             newItem.appendChild(priceSpan);
 
 
@@ -42,10 +38,8 @@
         console.error(error)
       })
       
-function addCarrinho(){
-    
-}
-mostraCarrinho = false;
+
+var mostraCarrinho = false;
 
 if(document.readyState == 'loading'){
     document.addEventListener('DOMContentLoaded', ready)

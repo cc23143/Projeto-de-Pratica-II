@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="cardapio.css">
-    <script src="cardapio.js" async></script>
     <link rel="icon" href="img/logoctc.png">
     <title>Cardapio de Bebidas</title>
 </head>
@@ -16,24 +16,6 @@
     </header>
     <section class="container">
         <div class="container-items">
-            <div class="item">
-                <span class="titulo-item">Sprite</span>
-                <img src="img/sprite.png" alt="" class="img-item">
-                <span class="preço-item">R$6.99</span>
-                <button class="botao-item">Adicionar ao carrinho</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Coca-Cola</span>
-                <img src="img/coca.png" alt="" class="img-item">
-                <span class="preço-item">R$10.99</span>
-                <button class="botao-item">Adicionar ao carrinho</button>
-            </div>
-            <div class="item">
-                <span class="titulo-item">Guaraná</span>
-                <img src="img/gurana.png" alt="" class="img-item">
-                <span class="preço-item">R$8.99</span>
-                <button class="botao-item">Adicionar ao carrinho</button>
-            </div>
         </div>
 
         <div class="carrinho" id="carrinho">
@@ -54,5 +36,7 @@
             </div>
         </div>
     </section>
+    <a href="cardapio.html">Escolha sua bebida aqui</a>
+    <script src="cardapioB.js"></script>
 </body>
 </html>

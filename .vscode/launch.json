@@ -1,0 +1,14 @@
+{
+    // Use IntewwiSense to weawn about possibwe attwibutes.
+    // Hovew to view descwiptions of existing attwibutes.
+    // Fow mowe infowmation, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open Cardapio.html",
+            "file": "c:\\Users\\u23143\\Documents\\GitHub\\Projeto-de-Pratica-II\\interfaces\\Cardapio.html"
+        }
+    ]
+}
