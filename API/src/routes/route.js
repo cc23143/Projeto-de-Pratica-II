@@ -4,15 +4,19 @@ const controller = require('../controllers/controller')
 const { Router } = require('express')
 const express = require('express')
 const router = express.Router()
+const path   = require("path")
 
 router.get('/cad', function(req, res){
-    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index.ejs');
+    res.render("" + path.join(__dirname, "../controllers/views/index.ejs"));
  });
 router.get("/NewCad", function(req, res){
-    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
+    res.render("" + path.join(__dirname, "..", 'controllers', 'views', 'index2.ejs'));
 });
 router.get("/Client", function(req, res){
-    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
+    res.render("" + path.join(__dirname, "..", 'controllers', 'views', 'InterCliente.ejs'));
+});
+router.get("/Cardapio", function(req, res){
+    res.render("" + path.join(__dirname, "..", 'controllers', 'views', 'Cardapio.ejs'));
 });
 router.post('/addCadastro',controller.addCadastro)
 router.get('/verifCadastro',controller.verifCadastro)

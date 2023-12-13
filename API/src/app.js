@@ -4,17 +4,7 @@ const express = require('express')
 const app = express()
 
 const route = require('./routes/route')
-const router = express.Router()
 
-router.get('/cad', function(req, res){
-    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index.ejs');
- });
-router.get("/NewCad", function(req, res){
-    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
-});
-router.get("/Client", function(req, res){
-    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
-});
 
 app.use(express.urlencoded({extended:true})) 
 app.use(express.json())

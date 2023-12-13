@@ -149,7 +149,7 @@
                     senha: Senha
                   }})
                   .then(function (res) {
-                    sessionStorage.setItem("id", "" + res.data[0].idCliente);
+                    window.alert("Conta adicionada com sucesso!")
                   })
                   .catch(function (error) {
                     console.error(error);
