@@ -1,8 +1,13 @@
-    
-    var id     = sessionStorage.getItem("id");
-    let arrayP = []
-    let arrayI = []
-    console.log(id)
+
+
+    let arrayP     = []
+    let arrayI     = []
+    let arrayNomeP = []
+    let arrayPrecP = []
+    let arrayimg   = []
+    let arrayNumP  = []
+    let Prods      = 0
+    console.log(2)
     axios.get(`http://localhost:7698/getCardapioP`)
       .then(function (res) {
         for(i=0;i<res.data.length;i++){
@@ -42,10 +47,41 @@
         console.error(error)
       })
       
-function addCarrinho(){
-    
+function addToCarrinho(C,i,P,B,NP,NB,TP){
+    console.log(C + "/*/" + i + "/*/" + P + "/*/" + B + "/*/" + NP + "/*/" + NB + "/*/" + TP)
+    axios.post(`http://localhost:7698/addC`, {params:{
+        idCliente:C,
+        NumProduto:i,
+        idPizzas:P,
+        idBebidas:B,
+        NumPizzas:NP,
+        NumBebidas:NB,
+        TamanhoP:TP
+    }})
+    .then(function (res) {
+        console.log(res)
+    })
+    .catch(function (error) {
+        console.error(error)
+    })
 }
-mostraCarrinho = false;
+
+async function Pedido(){
+    var id = sessionStorage.getItem("id");
+    await axios.post(`http://localhost:7698/peds`, {params:{
+        idF:null,
+        idCarr:id
+    }})
+    .then(function (res) {
+        console.log(res)
+    })
+    .catch(function (error) {
+        console.error(error)
+    })
+}
+
+var mostraCarrinho = false;
+
 
 if(document.readyState == 'loading'){
     document.addEventListener('DOMContentLoaded', ready)
@@ -94,20 +130,69 @@ function ready(){
 }
 
 function pagarClicked(){
+    var carrinhoItems = document.getElementsByClassName('carrinho-item');
+    
+    for (var i = 0; i < carrinhoItems.length; i++) {
+        var item       = carrinhoItems[i];
+        var titulo     = item.querySelector('.carrinho-item-titulo').innerText;
+        var preço      = item.querySelector('.carrinho-item-preço').innerText;
+        var quantidade = item.querySelector('.carrinho-item-quantidade').value;
+        var img        = item.querySelector('img').src
+        var parts = img.split('/');
+        var lastPart = parts[parts.length - 1];
+        arrayNomeP.push(titulo);
+        arrayPrecP.push(preço);
+        arrayimg.push(lastPart);
+        arrayNumP.push(quantidade);
+        var NP  = parseInt(sessionStorage.getItem("NumProd"))
+        sessionStorage.setItem("NumProd",NP + 1)
+        console.log("check")
+        var id = sessionStorage.getItem("id");
+    } 
+    let ArrayNumeroProds = []
+    for(i=0;i<ArrayNumeroProds.length;i++){
+        ArrayNumeroProds.push(sessionStorage.getItem("NumProd") - i)
+    }
+    console.log(ArrayNumeroProds)
+    console.log(JSON.stringify(ArrayNumeroProds))
+    let ArrayIdP  = []
+    for(i=0;i<arrayNomeP.length;i++){
+        axios.get(`http://localhost:7698/getPFD`, {params:{
+            nome:arrayNomeP[i],
+            preco:arrayPrecP[i].slice(2),
+            img:arrayimg[i]
+        }})
+        .then(function (res) {
+            console.log(res)
+            ArrayIdP.push(res.data[0].idPizza)
+        })
+        .catch(function (error) {
+            console.error(error)
+        })
+    }
+    console.log(ArrayIdP)
+    console.log(JSON.stringify(ArrayIdP))
+    addToCarrinho(id,JSON.stringify(ArrayNumeroProds),JSON.stringify(ArrayIdP),null,JSON.stringify(ArrayNumeroProds),null,null)
+    Pedido()
     alert("Obrigado por comprar conosco");
-    var carrinhoItems = document.getElementsByClassName('carrinho-items')[0];
-    while (carrinhoItems.hasChildNodes()){
-        carrinhoItems.removeChild(carrinhoItems.firstChild)
+    var carrinhoItemsContainer = document.getElementsByClassName('carrinho-items')[0];
+    while (carrinhoItemsContainer.hasChildNodes()) {
+        carrinhoItemsContainer.removeChild(carrinhoItemsContainer.firstChild);
     }
     atualizarTotalcarrinho();
     ocultarcarrinho();
 }
+
 function btnAdicionarAoCarrinho(event){
-    var button = event.target;
-    var item = button.parentElement;
-    var titulo = item.getElementsByClassName('titulo-item')[0].innerText;
-    var preço = item.getElementsByClassName('preço-item')[0].innerText;
-    var imagenSrc = item.getElementsByClassName('img-item')[0].src;
+    var button        = event.target;
+    var item          = button.parentElement;
+    var titulo        = item.getElementsByClassName('titulo-item')[0].innerText;
+    var preço         = item.getElementsByClassName('preço-item')[0].innerText;
+    var imagenSrc     = item.getElementsByClassName('img-item')[0].src;
+    arrayNomeP[Prods] = titulo
+    arrayPrecP[Prods] = preço
+    arrayimg[Prods]   = imagenSrc
+    
     console.log(imagenSrc);
 
     adicionarAoCarrinho(titulo, preço, imagenSrc);

@@ -30,6 +30,7 @@ function AddCadastro(){
           })
           window.location.replace('InterCliente.html')
           console.log(result)
+
       })
       .catch(function (error) {
           console.error(error);

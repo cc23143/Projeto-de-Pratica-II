@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@prisma/client": "^5.3.1",
+    "cors": "^2.8.5",
     "get-user-locale": "^2.3.1"
   }
 }
