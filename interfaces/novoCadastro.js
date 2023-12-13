@@ -17,7 +17,8 @@ function AddCadastro(){
     let data = new Date();
     axios.post(`http://localhost:7698/addCadastro?email=${Email}&senha=${Senha}&nome=${Nome}&sobrenome=${Sobrenome}&sexo=${Sexo}&dataNascDia=${DataNasc.slice(8,10)}&dataNascMes=${DataNasc.slice(5,7)}&dataNascAno=${DataNasc.slice(0,4)}&endereco=${Endereco}`)
       .then(function (res) {
-          console.log(res)
+          window.alert("Conta criada com sucesso!")
+          window.location.replace()
       })
       .catch(function (error) {
           console.error(error);

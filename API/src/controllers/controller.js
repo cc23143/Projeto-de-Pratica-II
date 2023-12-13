@@ -104,6 +104,17 @@ exports.getCardapioPizza = ("/getCardapioP",async(req,res) => {
     res.json(CardPizza)
 })
 
+exports.getPFromData = ('/getPFD',async(req,res) => {
+    let nome    = req.query.nome
+    let preco   = req.query.preco
+    let img     = req.query.img
+    console.log(nome )    
+    console.log(preco)
+    console.log(img  )    
+    let Pizza   = await prisma.$queryRaw`select idPizza from Pizzaria.Pizza where precoPizza = cast(${preco} as money) and img = ${img} and nomePizza = ${nome}`
+    res.json(Pizza)
+})
+
 exports.getIng = ("/getIng",async(req,res) => {
     let Ing       = await prisma.$queryRaw`select * from Pizzaria.ingrediente order by idPizza`
     res.json(Ing)
@@ -134,7 +145,7 @@ exports.addToCarrinho = ("/addC",async(req,res) => {
     let TamPizzas  = req.query.TamanhoP   //define o tamanhoda pizza conforme a posição
     //!!!O idCarrinho é sempre igual ao idCliente!!!\\
     let arrayRes   = []
-    try{
+    /*try{
         for(i = 0; i < NumProduto.length;i++){
             if(idPizza[i] == 0){
                 let insertedCart = await prisma.$queryRaw`insert into Pizzaria.CarrinhoDeCompras values(${idCliente},${NumProduto[i]},null,${idBebida[i]},${idCliente},null,${NumBebidas[i]},null)`
@@ -146,7 +157,8 @@ exports.addToCarrinho = ("/addC",async(req,res) => {
         res.send(arrayRes)
     }catch(err){
         console.log(err)
-    }
+    }*/
+    console.log(NumProduto + "/*/" + idCliente + "/*/" + idPizza + "/*/" + idBebida + "/*/" + NumPizzas + "/*/" + NumBebidas + "/*/" + TamPizzas)
     
 })
 
@@ -159,6 +171,17 @@ exports.getLastNumProd = ("/getLNProd", async(req,res) => {
     res.json(ObjNum)
 })
 
+exports.getCarrinho = ("/getC",async(req,res) => {
+    let id  = req.query.id
+    let Car = await prisma.$queryRaw`select * from Pizzaria.CarrinhoDeCompras where idCarrinho = ${id}`
+    res.json(Car)
+})
+
+exports.delCarrinho = ('/delC',async(req,res) => {
+    let id = req.query.id
+    let Car = await prisma.$queryRaw`delete from Pizzaria.CarrinhoDeCompras where idCarrinho = ${id}`
+    res.json(Car)
+})
 
 exports.Pedido   = ("/ped",async(req,res) => {
     let idFunc   = req.query.idF
@@ -180,6 +203,7 @@ exports.Pedido   = ("/ped",async(req,res) => {
         res.send("ocorreu um erro na inserção do pedido.")
     }
 })
+
 
 
 //exports.

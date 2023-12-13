@@ -35,6 +35,7 @@ function VerifCadastro(){
               default:
                   window.location.replace('interCliente.html')
                   sessionStorage.setItem("id", "" + res.data[0].idCliente);
+                  sessionStorage.setItem("NumProd","0")
             }
         }
       }})
