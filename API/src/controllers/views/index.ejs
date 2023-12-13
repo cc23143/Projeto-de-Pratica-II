@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    background-image: url(img/background.jpg);
+    background-repeat: no-repeat;
+    background-image: cover;
+    font-family: 'Italiana', sans-serif;
+}
+
+body::before{
+    content:"";
+    background-color: rgb(0,0,0, .6);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.logo img{
+    width: 70px;
+}
+
+header{
+    padding: 20px;
+    position: relative;
+}
+
+.container a{
+    font-weight: 600;
+}
+
+.container{
+    position: relative;
+    padding: 60px;
+    height: 55px;
+    max-width: 450px;
+    margin-left: 33%;
+
+}
+
+.container h2{
+    color: white;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.container .input{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.container .input input{
+    height: 50px;
+    width: 260px;
+    color: white;
+    background-color: rgb(51, 51, 51);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-left: 11px;
+    outline: none;
+}
+
+.container .input input:hover{
+    background-color: rgb(68, 68, 68);
+}
+
+.container .input .botao{
+    height: 50px;
+    width: 270px;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+}
+
+.container .input .botao:hover{
+    background-color: rgb(184, 184, 184);
+}
+
+.login{
+    display: flex;
+    margin: auto;
+    margin-top: 15%;
+    padding-bottom: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container .input .conta{
+    color: white;
+}
+
+.container .input .conta:hover{
+    color: rgb(182, 182, 182);
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="cadastro.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="cadastro.css">
+    <link rel="icon" href="img/logoctc.png">
+    <title>Login</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="#">
+                <img src="img/logoctc.png" alt=""/>
+            </a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="login">
+            <h2>Login</h2>
+            <div class="input">
+                <input type="email" placeholder="Insira seu email" id="Email">
+                <input type="password" placeholder="insira sua senha" id="Senha">
+                <input type="button" value="Entrar" class="botao" onclick="VerifCadastro()">ㅤ
+                <a id="link" class="conta" href="NovoCadastro.html">Ainda não tem uma conta? </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        //https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage
+        function VerifCadastro(){
+            let Email = document.getElementById('Email').value
+            let Senha = document.querySelector('#Senha').value
+            axios.get(`http://localhost:7698/verifCadastro`, {params:{
+              email: Email,
+              senha: Senha
+            }})
+              .then(function (res) {
+                console.log(res)
+                console.log(res.data[0].func)
+                console.log(res.data[0].nome)
+                if(res.data[0].func != null && res.data[0].func != undefined){
+                  switch(res.data[0].func){
+                    case "gerente":
+                
+                        //https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage
+                        sessionStorage.setItem("id", "" + res.data[0].idFunc);
+                        window.location.replace('InterGerente.html')
+                    case "cozinhero":
+                
+                    case "entregador":
+                
+                    case "garçom":  
+                
+                    default:
+                      console.error("Algo deu errado!")
+                  }
+                }else{
+                  if(res.data[0].nome != null && res.data[0].nome != undefined){
+                    switch(res.data[0].nome){
+                      case "undefined" || "-1" || "nothing" || "" || "null":
+                          window.alert("Houve um erro ao cadastrar! verifique o email e a senha")
+                      default:
+                          sessionStorage.setItem("id", "" + res.data[0].idCliente);
+                          window.location.replace('interCliente.html')
+                          sessionStorage.setItem("id", "" + res.data[0].idCliente);
+                          sessionStorage.setItem("NumProd","0")
+                    }
+                }
+              }})
+              .catch(function (error) {
+                console.log("Não")
+                console.error(error);
+              })
+          
+        }
+    </script>
+</body>
+</html>

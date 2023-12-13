@@ -5,7 +5,9 @@ const prisma = new PrismaClient()
 const controller = require('../controllers/controller') 
 const { Router } = require('express')
 
-router.get('/',controller.getRaiz);
+router.get('/cad', function(req, res){
+    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index.ejs');
+ });
 router.post('/addCadastro',controller.addCadastro)
 router.get('/verifCadastro',controller.verifCadastro)
 router.put('/altSenha',controller.altSenha)
@@ -19,5 +21,6 @@ router.post('/ped', controller.Pedido)
 router.get('/getLNProd', controller.getLastNumProd)
 router.get('/getC', controller.getCarrinho)
 router.delete('/delC', controller.delCarrinho)
+
 
 module.exports = router
