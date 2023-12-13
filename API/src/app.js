@@ -4,24 +4,20 @@ const express = require('express')
 const app = express()
 
 const route = require('./routes/route')
+const router = express.Router()
+
+router.get('/cad', function(req, res){
+    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index.ejs');
+ });
+router.get("/NewCad", function(req, res){
+    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
+});
+router.get("/Client", function(req, res){
+    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
+});
 
 app.use(express.urlencoded({extended:true})) 
 app.use(express.json())
-
-const http = require("http");
-const fs = require("fs");
-
-http.createServer((req, res) => {
-  res.writeHead(200, {
-    "Content-type": "text/html"
-  });
-
-  const html = fs.readFileSync(__dirname + "/bai55.html", "utf8");
-  const user = "Node JS";
-
-  html = html.replace("{ user }", user);
-  res.end(html);
-}).listen(1337);
 
 
 //https://www.youtube.com/watch?v=R831QHI0AAE

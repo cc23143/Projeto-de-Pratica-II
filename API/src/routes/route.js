@@ -1,13 +1,19 @@
-const express = require('express')
-const router = express.Router()
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const controller = require('../controllers/controller') 
 const { Router } = require('express')
+const express = require('express')
+const router = express.Router()
 
 router.get('/cad', function(req, res){
     res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index.ejs');
  });
+router.get("/NewCad", function(req, res){
+    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
+});
+router.get("/Client", function(req, res){
+    res.render('C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/API/src/controllers/views/index2.ejs');
+});
 router.post('/addCadastro',controller.addCadastro)
 router.get('/verifCadastro',controller.verifCadastro)
 router.put('/altSenha',controller.altSenha)

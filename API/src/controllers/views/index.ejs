@@ -116,7 +116,6 @@ header{
 }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="cadastro.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,7 +140,7 @@ header{
                 <input type="email" placeholder="Insira seu email" id="Email">
                 <input type="password" placeholder="insira sua senha" id="Senha">
                 <input type="button" value="Entrar" class="botao" onclick="VerifCadastro()">ㅤ
-                <a id="link" class="conta" href="NovoCadastro.html">Ainda não tem uma conta? </a>
+                <a id="link" class="conta" href="NewCad">Ainda não tem uma conta? </a>
             </div>
         </div>
     </div>
@@ -181,7 +180,7 @@ header{
                           window.alert("Houve um erro ao cadastrar! verifique o email e a senha")
                       default:
                           sessionStorage.setItem("id", "" + res.data[0].idCliente);
-                          window.location.replace('interCliente.html')
+                          window.location.replace('http://localhost:7698/NewCad')
                           sessionStorage.setItem("id", "" + res.data[0].idCliente);
                           sessionStorage.setItem("NumProd","0")
                     }
