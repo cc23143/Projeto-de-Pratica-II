@@ -1,10 +1,22 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
-
+const http   = require('http')
+const fs     = require('fs')
 const express = require('express')
 const app = express()
 
 const route = require('./routes/route')
+
+fs.readFile("C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/interfaces", function (err, html) {
+    if (err) {
+        throw err; 
+    }       
+    http.createServer(function(request, response) {  
+        response.writeHeader(200, {"Content-Type": "text/html"});  
+        response.write(html);  
+        response.end();  
+    }).listen(3000);
+});
 
 app.use(express.urlencoded({extended:true})) 
 app.use(express.json())

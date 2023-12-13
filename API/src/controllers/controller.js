@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
-
+let http = require('http')
+let fs = require("fs")
 exports.getRaiz = ("/",(req,res) => {
     res.send("<h1>Cotuca's Pizzaria</h1>");
 })
