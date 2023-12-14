@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+        
+        body{
+            height: 100%;
+            width: 100%;
+            background-image: url(img/background.jpg);
+            background-repeat: no-repeat;
+            background-image: cover;
+            font-family: 'Italiana', sans-serif;
+        }
+        
+        body::before{
+            content:"";
+            background-color: rgb(0,0,0, .6);
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .logo img{
+            width: 70px;
+        }
+        
+        header{
+            padding: 20px;
+            position: relative;
+        }
+        
+        .container a{
+            font-weight: 600;
+        }
+        
+        .container{
+            position: relative;
+            padding: 60px;
+            max-width: 400px;
+            margin-left: 40%;
+        }
+        
+        .container h2{
+            color: white;
+            margin-bottom: 20px;
+            font-size: 30px;
+        }
+        
+        .container .input{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 20px;
+            height: 420px;
+        }
+        
+        .container .input input{
+            height: 200px;
+            width: 260px;
+            color: white;
+            background-color: rgb(51, 51, 51);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding-left: 11px;
+            outline: none;
+        }
+        
+        select{
+            height: 200px;
+            width: 272px;
+            color: white;
+            background-color: rgb(51, 51, 51);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding-left: 11px;
+            outline: none;
+        }
+        
+        .container .input input:hover{
+            background-color: rgb(68, 68, 68);
+        }
+        
+        .container .input .botao{
+            height: 200px;
+            width: 270px;
+            background-color: white;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .container .input .botao:hover{
+            background-color: rgb(184, 184, 184);
+        }
+        
+        .login{
+            display: flex;
+            margin: auto;
+            margin-top: 15%;
+            padding-bottom: 0;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container .input .conta{
+            color: white;
+        }
+        
+        .container .input .conta:hover{
+            color: rgb(182, 182, 182);
+        }
+    </style>
+    <script>
+        function AddCadastro(){
+            let Email     = document.getElementById('Email').value
+            let Senha     = document.querySelector('#senha').value
+            let Nome      = document.querySelector('#Name').value
+            let Sobrenome = document.querySelector('#Sobrenome').value
+            let Endereco  = document.querySelector('#Endereco').value
+            let Sexo      = document.querySelector('#sexo').value
+            let DataNasc  = document.querySelector('#data').value
+            console.log(Email    )
+            console.log(Senha    )
+            console.log(Nome     )
+            console.log(Sobrenome)
+            console.log(Endereco )
+            console.log(Sexo     )
+            console.log(DataNasc )
+            console.log(DataNasc.slice(0,4))
+            let data = new Date();
+            axios.post(`http://localhost:7698/addCadastro?email=${Email}&senha=${Senha}&nome=${Nome}&sobrenome=${Sobrenome}&sexo=${Sexo}&dataNascDia=${DataNasc.slice(8,10)}&dataNascMes=${DataNasc.slice(5,7)}&dataNascAno=${DataNasc.slice(0,4)}&endereco=${Endereco}`)
+              .then(function (result) {
+                  //https://developer.mozilla.org/pt-BR/docs/Web/API/Window/sessionStorage
+                  axios.get(`http://localhost:7698/verifCadastro`, {params:{
+                    email: Email,
+                    senha: Senha
+                  }})
+                  .then(function (res) {
+                    window.alert("Conta adicionada com sucesso!")
+                  })
+                  .catch(function (error) {
+                    console.error(error);
+                  })
+                  window.location.replace('InterCliente.html')
+                  console.log(result)
+        
+              })
+              .catch(function (error) {
+                  console.error(error);
+              })
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Cadastro</title>
+    <link rel="stylesheet" href="NovoCadastro.css">
+    <link rel="icon" href="img/logoctc.png">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="#">
+                <img src="img/logoctc.png" alt=""/>
+            </a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="Login">
+            <h2>Novo Login</h2>
+            <div class="input">
+                <input type="text" id="Name" placeholder="Insira seu nome">
+                <input type="text" id="Sobrenome" placeholder="Insira seu sobrenome">
+                <input type="text" id="Endereco" placeholder="Insira seu endereço">
+                <input type="date" id="data" min="1923-01-01" max="2005-12-31" placeholder="Insira seu dia de nascimento">
+                <select name="sexo" id="sexo">
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                    <option value="N">Prefiro não dizer</option>
+                </select>
+                <input type="email" id="Email" placeholder="insira seu email">
+                <input type="password" id="senha" placeholder="insira sua senha">
+                <p>ㅤ</p>
+                <input type="button" value="Cadastrar" class="botao" onclick="AddCadastro()">ㅤㅤㅤㅤ<a id="link" class="conta" href="cad">Retornar</a>
+                <p>ㅤ</p>
+            </div>
+        </div>   
+    </div>    
+</body>
+</html>

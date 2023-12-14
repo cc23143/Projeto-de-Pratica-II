@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Italiana', sans-serif;
+    scroll-padding-top: 30px;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+
+img{
+    width: 70%;
+}
+
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.logo img{
+    width: 40px;
+}
+
+header{
+    position: sticky;
+    display: flex;
+    align-items: center;
+    top: 0;
+    right: 0;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 5px 40px rgba(255, 0, 0, 0.6);
+    padding: 15px 12%;
+}
+
+.barra{
+    display: flex;
+    gap: 20px;
+}
+
+.barra a{
+    font-size: 22px;
+    color: red;
+    padding: 15px 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.barra a:hover{
+    color: rgb(161, 3, 3);
+}
+
+#icones{
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.home{
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: rgb(255, 0, 0);
+    color: white;
+    padding-left: 190px;
+}
+
+.home a{
+    color: white;
+}
+
+.texto{
+    flex: 20px;
+}
+
+.principal{
+    flex: 20px;
+}
+
+.texto h4{
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.texto h1{
+    font-size: 60px;
+}
+
+.texto h2{
+    font-size: 25px;
+    font-weight: 600;
+    margin: 20px 0 24px;
+    text-transform: uppercase;
+}
+
+.botao{
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.botao:hover{
+    color: rgb(255, 0, 0);
+    background: white;
+}
+
+.produto{
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.produto h4{
+    padding-top: 50px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.produto h1{
+    font-size: 30px;
+    font-weight: 600;
+    color: red;
+}
+
+.pizzas{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.pizzas .caixa{
+    flex: 20px;
+    background: red;
+    padding: 20px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+.pizzas a{
+    color: white;
+}
+
+.pizzas .caixa .caixa-de-produto{
+    width: 150px;
+    margin-top: -80px;
+}
+
+.pizzas .caixa .caixa-de-produto img{
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.caixa h2{
+    font-size: 30px;
+}
+
+.caixa h5{
+    font-size: 19px;
+    font-weight: 800;
+    margin: 9px 0 19px;
+}
+
+.sobreNos{
+    display: flex;
+    flex-wrap: wrap;
+    background: rgb(255, 255, 255);
+    margin-top: 100px;
+}
+
+.sobreimg{
+    flex: 20px;
+}
+
+.sobretxt{
+    flex: 20px;
+    padding-top: 90px;
+    padding-right: 100px;
+    font-weight: 600;
+}
+
+.sobretxt h2{
+    flex: 20px;
+    color: rgb(0, 0, 0);
+    font-size: 25px;
+}
+
+.sobretxt p{
+    margin: 10px 0 17px;
+    text-align: justify;
+    color: rgb(0, 0, 0);
+}
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="interCliente.css">
+    <link rel="icon" href="img/logoctc.png">
+    <title>Principal</title>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo"><img src="img/logoctc.png" alt=""></a>
+        <div class="menu" id="icones"></div>
+        <ul class="barra">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#sobreNos">Sobre Nós</a></li>
+        </ul>
+    </header>
+
+    <section class="home" id="home">
+        <div class="texto">
+            <h4>Bem-vindo ao</h4>
+            <h1>Cotuca`s Pizzaria</h1>
+            <h2>sua pizza esta a alguns cliques de distância!</h2>
+            <a href="Cardapio.html" class="botao">Compre Aqui!</a>
+        </div>
+        <div class="principal">
+            <img src="img/principal.png" alt="">
+        </div>
+    </section>
+    <section class="produtos" id="produtos">
+        <div class="produto">
+            <h4>Peça Agora</h4>
+            <h1>Produtos Famosos!</h1>
+        </div>
+        <div class="pizzas">
+            
+        </div>
+    </section>
+    <section class="sobreNos" id="sobreNos">
+        <div class="sobreimg">
+            <img src="img/sobrectc.jpg" alt="">
+        </div>
+        <div class="sobretxt">
+            <h2 id="id"></h2>
+            <h2>Mais um pouco sobre nós</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam interdum sapien in gravida dictum. Nulla posuere dolor tincidunt hendrerit porttitor.
+            Pellentesque cursus pharetra eleifend. Cras vel finibus mauris. Donec maximus nisi dignissim gravida vulputate.
+            Praesent maximus augue vitae vulputate lobortis. Pellentesque et mollis sem. Nulla sollicitudin molestie lectus, nec sollicitudin lectus egestas a.
+            Ut placerat dolor vitae magna mattis tempor. Aenean fringilla dolor eget orci pretium, vel condimentum ex dignissim. Ut at ligula cursus, suscipit odio vel, accumsan ipsum.
+            Morbi eu eros non nisl dignissim scelerisque id nec orci. Pellentesque et sem vitae mauris volutpat ullamcorper.</p>
+        </div>
+    </section>
+</body>
+</html>

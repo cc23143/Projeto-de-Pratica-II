@@ -1,22 +1,13 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
-const http   = require('http')
-const fs     = require('fs')
 const express = require('express')
 const app = express()
 
 const route = require('./routes/route')
 
-/*fs.readFile('', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(data);
-});*/
-
 app.use(express.urlencoded({extended:true})) 
 app.use(express.json())
+
 
 //https://www.youtube.com/watch?v=R831QHI0AAE
 app.use(function(req,res,next){

@@ -1,0 +1,574 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+*{
+    margin: 0;
+    padding:0;
+    font-family: 'Italiana', sans-serif;
+}
+header{
+    background: url(img/background.jpg);
+    background-size: cover;
+    background-position:center;
+    height: 300px;
+}
+header h1{
+    text-align: center;
+    font-size: 35px;
+    color: #fff;
+    padding: 30px 0;
+}
+.container{
+    max-width: 1200px;
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    contain: paint;
+}
+
+.container .container-items{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap:30px;
+    grid-row-gap: 30px;
+    width: 100%;
+    transition: .3s;
+}
+.container .container-items .item{
+    max-width: 200px;
+    margin: auto;
+    border: 1px solid #ff0000;
+    border-radius: 10px;
+    padding: 20px;
+    transition: .3s;
+}
+.container .container-items .item .img-item{
+    width: 100%;
+}
+.container .container-items .item:hover{
+    box-shadow: 0 0 10px #ff0000;
+    scale: 1.05;
+}
+.container .container-items .item .titulo-item{
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+.container .container-items .item .preço-item{
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.container .container-items .item .botao-item{
+    display: block;
+    margin: 10px auto;
+    border: none;
+    background-color: rgb(255, 0, 0);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container .container-items .item .botao-item:hover{
+    background-color: #c20000;
+}
+
+.carrinho{
+    border: 1px solid #ff0000;
+    width: 35%;
+    margin-top: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: auto;
+    position: sticky !important;
+    top: 0;
+    transition: .3s;
+    margin-right: -100%;
+    opacity: 0;
+}
+.carrinho .header-carrinho{
+    background-color: #ff0000;
+    color: #fff;
+    text-align: center;
+    padding: 30px 0;
+}
+.carrinho .carrinho-item{
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid #ff0000;
+    padding: 20px;
+}
+.carrinho .carrinho-item img{
+    margin-right: 20px;
+}
+.carrinho .carrinho-item .carrinho-item-titulo{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.carrinho .carrinho-item .selector-cantidad{
+    display: inline-block;
+    margin-right: 25px;
+}
+.carrinho .carrinho-item .carrinho-item-cantidad{
+    border: none;
+    font-size: 18px;
+    background-color: transparent;
+    display: inline-block;
+    width:30px;
+    padding: 5px;
+    text-align: center;
+}
+.carrinho .carrinho-item .selector-cantidad i{
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ff0000;
+    cursor: pointer;
+}
+.carrinho .carrinho-item .carrinho-item-preço{
+    font-weight: bold;
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.carrinho .carrinho-item .btn-eliminar{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    color: #ff0000;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ff0000;
+    cursor: pointer;
+    display: block;
+    background: transparent;
+    z-index: 20;
+}
+.carrinho .carrinho-item .btn-eliminar i{
+    pointer-events: none;
+}
+
+.carrinho-total{
+    background-color: #f3f3f3;
+    padding: 30px;
+}
+.carrinho-total .fila{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.carrinho-total .btn-pagar{
+    display: block;
+    width: 100%;
+    border: none;
+    background: #ff0000;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.botao{
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+.carrinho-total .btn-pagar:hover{
+    scale: 1.05;
+}
+
+
+
+    </style>
+    <link rel="icon" href="img/logoctc.png">
+    <title>Cardapio de pizzas</title>
+</head>
+<body>
+    <header>
+        <h1>Cardapio de pizzas</h1>
+    </header>
+    <section class="container">
+        <div class="container-items">
+        </div>
+
+        <div class="carrinho" id="carrinho">
+            <div class="header-carrinho">
+                <h2>Seu carrinho</h2>
+            </div>
+            <div class="carrinho-items">
+                
+            </div>
+            <div class="carrinho-total">
+                <div class="fila">
+                    <strong>Preço Total</strong>
+                    <span class="carrinho-preço-total">
+                        R$120.000
+                    </span>
+                </div>
+                <button class="btn-pagar">Pagar<i class="fa-solid fa-bag-shopping"></i> </button>
+            </div>
+        </div>
+    </section>
+    <div class="botao-item">
+        <a href="cardapioB.html">Escolha sua bebida aqui</a>
+    </div>
+    <script async>
+
+
+        let arrayP     = []
+        let arrayI     = []
+        let arrayNomeP = []
+        let arrayPrecP = []
+        let arrayimg   = []
+        let arrayNumP  = []
+        let Prods      = 0
+        console.log(2)
+        axios.get(`http://localhost:7698/getCardapioP`)
+          .then(function (res) {
+            for(i=0;i<res.data.length;i++){
+                var newItem = document.createElement('div');
+                newItem.className = 'item';
+                console.log(2)
+                
+                var titleSpan = document.createElement('span');
+                titleSpan.className = 'titulo-item';
+                titleSpan.textContent = '' + res.data[i].nomePizza
+    
+                newItem.appendChild(titleSpan);
+                var imgElement = document.createElement('img');
+                imgElement.className = 'img-item';
+                imgElement.src = 'img/' + res.data[i].img;
+                imgElement.alt = '';
+                newItem.appendChild(imgElement);
+    
+                var priceSpan = document.createElement('span');
+                priceSpan.className = 'preço-item';
+                priceSpan.textContent = "R$" + res.data[i].precoPizza
+                newItem.appendChild(priceSpan);
+    
+    
+                var addButton = document.createElement('button');
+                addButton.className = 'botao-item';
+                addButton.textContent = 'Adicionar ao carrinho';
+                newItem.appendChild(addButton);
+    
+    
+                document.querySelector('.container-items').appendChild(newItem);
+                console.log('New item:', newItem);
+                console.log('Container:', document.querySelector('.container-items'));
+            }
+          })
+          .catch(function (error) {
+            console.error(error)
+          })
+          
+    function addToCarrinho(C,i,P,B,NP,NB,TP){
+        console.log(C + "/*/" + i + "/*/" + P + "/*/" + B + "/*/" + NP + "/*/" + NB + "/*/" + TP)
+        axios.post(`http://localhost:7698/addC`, {params:{
+            idCliente:C,
+            NumProduto:i,
+            idPizzas:P,
+            idBebidas:B,
+            NumPizzas:NP,
+            NumBebidas:NB,
+            TamanhoP:TP
+        }})
+        .then(function (res) {
+            console.log(res)
+        })
+        .catch(function (error) {
+            console.error(error)
+        })
+    }
+    
+    async function Pedido(){
+        var id = sessionStorage.getItem("id");
+        await axios.post(`http://localhost:7698/peds`, {params:{
+            idF:null,
+            idCarr:id
+        }})
+        .then(function (res) {
+            console.log(res)
+        })
+        .catch(function (error) {
+            console.error(error)
+        })
+    }
+    
+    var mostraCarrinho = false;
+    
+    
+    if(document.readyState == 'loading'){
+        document.addEventListener('DOMContentLoaded', ready)
+    }else{
+        ready();
+    }
+    
+    function ready(){
+        
+        var EliminarItem = document.getElementsByClassName('btn-eliminar');
+        for(var i=0;i<EliminarItem.length; i++){
+            var button = EliminarItem[i];
+            button.addEventListener('click',eliminarItemcarrinho);
+        }
+    
+        var somarQuantidade = document.getElementsByClassName('somar-quantidade');
+        for(var i=0;i<somarQuantidade.length; i++){
+            var button = somarQuantidade[i];
+            button.addEventListener('click',somarQuantidadeDeProdutos);
+        }
+    
+        var subtrairValor = document.getElementsByClassName('quantidade');
+        for(var i=0;i<subtrairValor.length; i++){
+            var button = subtrairValor[i];
+            button.addEventListener('click',subtrairQuantidadeDeProdutos);
+        }
+    
+        var buttonsContainer = document.querySelector('.container-items');
+    
+        buttonsContainer.addEventListener('click', function (event) {
+        var target = event.target;
+    
+        // Check if the clicked element has the class 'botao-item'
+        if (target.classList.contains('botao-item')) {
+            var item = target.parentElement;
+            var titulo = item.querySelector('.titulo-item').innerText;
+            var preço = item.querySelector('.preço-item').innerText;
+            var imagenSrc = item.querySelector('.img-item').src;
+    
+            adicionarAoCarrinho(titulo, preço, imagenSrc);
+            mostrarCarrrinho();
+        }
+    });
+    
+        document.getElementsByClassName('btn-pagar')[0].addEventListener('click',pagarClicked)
+    }
+    
+    function pagarClicked(){
+        var carrinhoItems = document.getElementsByClassName('carrinho-item');
+        
+        for (var i = 0; i < carrinhoItems.length; i++) {
+            var item       = carrinhoItems[i];
+            var titulo     = item.querySelector('.carrinho-item-titulo').innerText;
+            var preço      = item.querySelector('.carrinho-item-preço').innerText;
+            var quantidade = item.querySelector('.carrinho-item-quantidade').value;
+            var img        = item.querySelector('img').src
+            var parts = img.split('/');
+            var lastPart = parts[parts.length - 1];
+            arrayNomeP.push(titulo);
+            arrayPrecP.push(preço);
+            arrayimg.push(lastPart);
+            arrayNumP.push(quantidade);
+            var NP  = parseInt(sessionStorage.getItem("NumProd"))
+            sessionStorage.setItem("NumProd",NP + 1)
+            console.log("check")
+            var id = sessionStorage.getItem("id");
+        } 
+        let ArrayNumeroProds = []
+        for(i=0;i<ArrayNumeroProds.length;i++){
+            ArrayNumeroProds.push(sessionStorage.getItem("NumProd") - i)
+        }
+        console.log(ArrayNumeroProds)
+        console.log(JSON.stringify(ArrayNumeroProds))
+        let ArrayIdP  = []
+        for(i=0;i<arrayNomeP.length;i++){
+            axios.get(`http://localhost:7698/getPFD`, {params:{
+                nome:arrayNomeP[i],
+                preco:arrayPrecP[i].slice(2),
+                img:arrayimg[i]
+            }})
+            .then(function (res) {
+                console.log(res)
+                ArrayIdP.push(res.data[0].idPizza)
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+        }
+        console.log(ArrayIdP)
+        console.log(JSON.stringify(ArrayIdP))
+        addToCarrinho(id,JSON.stringify(ArrayNumeroProds),JSON.stringify(ArrayIdP),null,JSON.stringify(ArrayNumeroProds),null,null)
+        Pedido()
+        alert("Obrigado por comprar conosco");
+        var carrinhoItemsContainer = document.getElementsByClassName('carrinho-items')[0];
+        while (carrinhoItemsContainer.hasChildNodes()) {
+            carrinhoItemsContainer.removeChild(carrinhoItemsContainer.firstChild);
+        }
+        atualizarTotalcarrinho();
+        ocultarcarrinho();
+    }
+    
+    function btnAdicionarAoCarrinho(event){
+        var button        = event.target;
+        var item          = button.parentElement;
+        var titulo        = item.getElementsByClassName('titulo-item')[0].innerText;
+        var preço         = item.getElementsByClassName('preço-item')[0].innerText;
+        var imagenSrc     = item.getElementsByClassName('img-item')[0].src;
+        arrayNomeP[Prods] = titulo
+        arrayPrecP[Prods] = preço
+        arrayimg[Prods]   = imagenSrc
+        
+        console.log(imagenSrc);
+    
+        adicionarAoCarrinho(titulo, preço, imagenSrc);
+    
+        mostrarCarrrinho();
+    }
+    
+    function mostrarCarrrinho(){
+        carrinhoVisible = true;
+        var carrinho = document.getElementsByClassName('carrinho')[0];
+        carrinho.style.marginRight = '0';
+        carrinho.style.opacity = '1';
+    
+        var items =document.getElementsByClassName('container-items')[0];
+        items.style.width = '60%';
+    }
+    
+    function adicionarAoCarrinho(titulo, preço, imagenSrc){
+        var item = document.createElement('div');
+        item.classList.add('item');
+        var itemscarrinho = document.getElementsByClassName('carrinho-items')[0];
+    
+        var nomesItensNoCarrinho = itemscarrinho.getElementsByClassName('carrinho-item-titulo');
+        for(var i=0;i < nomesItensNoCarrinho.length;i++){
+            if(nomesItensNoCarrinho[i].innerText==titulo){
+                alert("O item ja esta no carrinho");
+                return;
+            }
+        }
+    
+        var itensNoCarrinho = `
+            <div class="carrinho-item">
+                <img src="${imagenSrc}" width="80px" alt="">
+                <div class="carrinho-item-detalles">
+                    <span class="carrinho-item-titulo">${titulo}</span>
+                    <div class="seletor-quantidade">
+                        <i class="fa-solid fa-minus quantidade"></i>
+                        <input type="text" value="1" class="carrinho-item-quantidade" disabled>
+                        <i class="fa-solid fa-plus somar-quantidade"></i>
+                    </div>
+                    <span class="carrinho-item-preço">${preço}</span>
+                </div>
+                <button class="btn-eliminar">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        `
+        item.innerHTML = itensNoCarrinho;
+        itemscarrinho.append(item);
+    
+         item.getElementsByClassName('btn-eliminar')[0].addEventListener('click', eliminarItemcarrinho);
+    
+        var botaoSubtrair = item.getElementsByClassName('quantidade')[0];
+        botaoSubtrair.addEventListener('click',subtrairQuantidadeDeProdutos);
+    
+        var botaoSomar = item.getElementsByClassName('somar-quantidade')[0];
+        botaoSomar.addEventListener('click',somarQuantidadeDeProdutos);
+    
+        atualizarTotalcarrinho();
+    }
+    function somarQuantidadeDeProdutos(event){
+        var buttonClicked = event.target;
+        var seletor = buttonClicked.parentElement;
+        console.log(seletor.getElementsByClassName('carrinho-item-quantidade')[0].value);
+        var quantidadeActual = seletor.getElementsByClassName('carrinho-item-quantidade')[0].value;
+        quantidadeActual++;
+        seletor.getElementsByClassName('carrinho-item-quantidade')[0].value = quantidadeActual;
+        atualizarTotalcarrinho();
+    }
+    function subtrairQuantidadeDeProdutos(event){
+        var buttonClicked = event.target;
+        var seletor = buttonClicked.parentElement;
+        console.log(seletor.getElementsByClassName('carrinho-item-quantidade')[0].value);
+        var quantidadeActual = seletor.getElementsByClassName('carrinho-item-quantidade')[0].value;
+        quantidadeActual--;
+        if(quantidadeActual>=1){
+            seletor.getElementsByClassName('carrinho-item-quantidade')[0].value = quantidadeActual;
+            atualizarTotalcarrinho();
+        }
+    }
+    
+    function eliminarItemcarrinho(event){
+        var buttonClicked = event.target;
+        buttonClicked.parentElement.parentElement.remove();
+    
+        atualizarTotalcarrinho();
+    
+        ocultarcarrinho();
+    }
+    function ocultarcarrinho(){
+        var carrinhoItems = document.getElementsByClassName('carrinho-items')[0];
+        if(carrinhoItems.childElementCount==0){
+            var carrinho = document.getElementsByClassName('carrinho')[0];
+            carrinho.style.marginRight = '-100%';
+            carrinho.style.opacity = '0';
+            carrinhoVisible = false;
+        
+            var items =document.getElementsByClassName('container-items')[0];
+            items.style.width = '100%';
+        }
+    }
+    
+    function atualizarTotalcarrinho() {
+        var carrinhocontainer = document.getElementsByClassName('carrinho')[0];
+        var carrinhoItems = carrinhocontainer.getElementsByClassName('carrinho-item');
+        var total = 0;
+    
+        for (var i = 0; i < carrinhoItems.length; i++) {
+            var item = carrinhoItems[i];
+            var preçoElemento = item.getElementsByClassName('carrinho-item-preço')[0];
+            var preçoText = preçoElemento.innerText;
+            var preçoLimpo = preçoText.replace(/[^\d.,]/g, '');
+            preçoLimpo = preçoLimpo.replace(',', '.');
+            var preço = parseFloat(preçoLimpo);
+    
+            if (!isNaN(preço)) {
+                var quantidadeItem = item.getElementsByClassName('carrinho-item-quantidade')[0];
+                var quantidade = parseInt(quantidadeItem.value, 10);
+    
+                total += preço * quantidade;
+            }
+        }
+    
+        total = Math.round(total * 100) / 100;
+    
+        document.getElementsByClassName('carrinho-preço-total')[0].innerText = 'R$ ' + total.toLocaleString("pt-BR");
+    }
+    </script>
+</body>
+</html>
