@@ -19,7 +19,11 @@ app.use(function(req,res,next){
     next();
 });
 
+app.use(express.static(__dirname + '/public'))
+
 app.use("/",route)
+
+app.set('view engine', 'ejs')
 
 app.get("/rf",(req,res) => {
     res.sendFile("C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/interfaces")

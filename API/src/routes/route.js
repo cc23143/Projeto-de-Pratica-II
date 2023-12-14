@@ -18,6 +18,9 @@ router.get("/Client", function(req, res){
 router.get("/Cardapio", function(req, res){
     res.render("" + path.join(__dirname, "..", 'controllers', 'views', 'Cardapio.ejs'));
 });
+router.get("/logoctcpng",function(req,res){
+    res.render("" + path.join(__dirname, "..", 'public', 'img', 'logoctc.png'))
+})
 router.post('/addCadastro',controller.addCadastro)
 router.get('/verifCadastro',controller.verifCadastro)
 router.put('/altSenha',controller.altSenha)
