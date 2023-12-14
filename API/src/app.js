@@ -7,16 +7,13 @@ const app = express()
 
 const route = require('./routes/route')
 
-fs.readFile("C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/interfaces", function (err, html) {
+/*fs.readFile('', 'utf8', (err, data) => {
     if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(3000);
-});
+      console.error(err);
+      return;
+    }
+    console.log(data);
+});*/
 
 app.use(express.urlencoded({extended:true})) 
 app.use(express.json())
@@ -33,6 +30,10 @@ app.use(function(req,res,next){
 
 app.use("/",route)
 
+app.get("/rf",(req,res) => {
+    res.sendFile("C:/Users/u23143/Documents/GitHub/Projeto-de-Pratica-II/interfaces")
+})
 app.listen(7698,() => { 
     console.log("Cotuca's pizzaria server started.")
+    
 })
